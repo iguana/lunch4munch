@@ -1,0 +1,1624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lunchtale Lunch Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070d; --panel:#11111b; --panel2:#191927; --ink:#f3f1ff; --muted:#a9a6c3; --line:#2c2a44;
+  --soul:#ff1f3d; --gold:#ffe14d; --orange:#ff9a1f;
+  --portal:#97ce4c; --portal2:#3cffb4; --sfpink:#ff7ac0; --sfyellow:#ffd23f; --rmblue:#3ec5ff; --me:#b58cff;
+  --pc:#ff5d73; --cc:#ffd23f; --fc:#3ec5ff; --fib:#7be07b;
+  --pixel:'Press Start 2P', ui-monospace, monospace;
+  --round:'Fredoka', ui-rounded, system-ui, sans-serif;
+  --bang:'Bangers', 'Fredoka', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--round);font-size:16px;line-height:1.45;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+   radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),
+   radial-gradient(1px 1px at 72% 12%,#fff6 50%,transparent 51%),
+   radial-gradient(1.5px 1.5px at 38% 62%,#fff5 50%,transparent 51%),
+   radial-gradient(1px 1px at 88% 48%,#fff7 50%,transparent 51%),
+   radial-gradient(1px 1px at 22% 82%,#fff5 50%,transparent 51%),
+   radial-gradient(1.5px 1.5px at 58% 90%,#fff4 50%,transparent 51%),
+   radial-gradient(900px 500px at 85% -10%,#97ce4c22,transparent 60%),
+   radial-gradient(800px 500px at -10% 30%,#ff7ac01a,transparent 60%),
+   radial-gradient(700px 500px at 50% 110%,#3ec5ff18,transparent 60%);
+  background-size:230px 230px,310px 310px,270px 270px,190px 190px,350px 350px,400px 400px,auto,auto,auto;
+  animation:twinkle 8s linear infinite}
+@keyframes twinkle{50%{opacity:.75}}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--portal)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 16px}
+.pixel{font-family:var(--pixel)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- HERO ---------- */
+.hero{padding:34px 0 18px;position:relative}
+.hero-grid{display:grid;grid-template-columns:320px 1fr;gap:34px;align-items:center}
+.hero-art{position:relative;width:300px;height:300px;margin:auto}
+.portal{position:absolute;inset:18px;border-radius:50%;cursor:pointer;
+  background:
+    radial-gradient(circle,#f4ffd6 0 8%,#c9f07a 18%,#97ce4c 36%,#4c9a22 55%,#1f5a10 66%,transparent 70%);
+  box-shadow:0 0 50px #97ce4caa,0 0 120px #3cffb444, inset 0 0 40px #2b6e12;
+  animation:pulse 3s ease-in-out infinite}
+.portal::before,.portal::after{content:"";position:absolute;inset:-4px;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0 8%,#d8ff8e88 12%,transparent 20% 33%,#5fd13a99 40%,transparent 48% 60%,#eaffb088 68%,transparent 76% 86%,#7ee04f99 94%,transparent);
+  mask:radial-gradient(circle,transparent 18%,#000 30%,#000 66%,transparent 71%);
+  -webkit-mask:radial-gradient(circle,transparent 18%,#000 30%,#000 66%,transparent 71%);
+  animation:spin 4s linear infinite}
+.portal::after{animation-duration:6.5s;animation-direction:reverse;opacity:.7;transform:scale(.8)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{box-shadow:0 0 70px #97ce4cdd,0 0 150px #3cffb466, inset 0 0 50px #2b6e12}}
+.soul{position:absolute;left:50%;top:50%;width:64px;height:56px;transform:translate(-50%,-50%);cursor:pointer;z-index:2;
+  filter:drop-shadow(0 0 10px #ff1f3daa);animation:float 2.6s ease-in-out infinite}
+.soul svg{width:100%;height:100%;image-rendering:pixelated}
+@keyframes float{50%{transform:translate(-50%,-58%)}}
+.smiley{position:absolute;right:-6px;bottom:6px;width:92px;height:92px;z-index:3;animation:wobble 3.2s ease-in-out infinite;cursor:pointer}
+@keyframes wobble{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(10deg) scale(1.05)}}
+.flask{position:absolute;left:-4px;top:10px;font-size:44px;z-index:3;animation:float2 3.6s ease-in-out infinite;cursor:pointer}
+@keyframes float2{50%{transform:translateY(-10px) rotate(8deg)}}
+.orbit{position:absolute;inset:0;animation:spin 22s linear infinite;pointer-events:none}
+.orbit span{position:absolute;font-size:26px;animation:spin 22s linear infinite reverse}
+
+.kicker{display:inline-flex;gap:8px;align-items:center;font-family:var(--pixel);font-size:10px;color:var(--gold);letter-spacing:.06em;
+  border:2px solid var(--gold);padding:7px 10px;margin-bottom:14px}
+h1.title{margin:0;font-family:var(--bang);font-weight:400;font-size:clamp(46px,8vw,96px);line-height:.9;letter-spacing:.02em;
+  background:linear-gradient(90deg,#c9f07a,#3cffb4 30%,#ffd23f 60%,#ff7ac0);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(3px 3px 0 #000) drop-shadow(0 0 22px #97ce4c55)}
+.subtitle{font-size:clamp(17px,2.2vw,22px);font-weight:600;margin:10px 0 6px}
+.subtitle em{font-style:normal;color:var(--sfpink)}
+.lede{color:var(--muted);max-width:640px;margin:0 0 16px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.pill{background:var(--panel2);border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-weight:600;font-size:14px}
+.pill b{color:var(--portal)}
+
+.dialog{display:flex;gap:14px;align-items:flex-start;background:#000;border:4px solid #fff;padding:14px 16px;min-height:96px;cursor:pointer;position:relative}
+.dialog .face{font-size:44px;line-height:1;width:58px;text-align:center;flex:none}
+.dialog .who{font-family:var(--pixel);font-size:9px;color:var(--gold);margin-bottom:8px}
+.dialog .txt{font-family:var(--pixel);font-size:12px;line-height:1.9;color:#fff;min-height:44px;word-break:break-word}
+.dialog .next{position:absolute;right:10px;bottom:6px;font-family:var(--pixel);font-size:9px;color:#fff9;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- NAV ---------- */
+.tabs{position:sticky;top:0;z-index:40;background:#07070dd9;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:6px;align-items:center;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+.tab{flex:none;background:transparent;border:2px solid transparent;padding:9px 14px;border-radius:12px;font-weight:600;color:var(--muted);white-space:nowrap}
+.tab:hover{color:var(--ink);background:var(--panel2)}
+.tab.on{color:#000;background:var(--portal);border-color:#000;box-shadow:3px 3px 0 #fff}
+.tabs .spacer{flex:1}
+.sound{flex:none;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:14px}
+
+section.tabpane{display:none;padding:26px 0 60px;animation:fadeIn .35s ease}
+section.tabpane.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}}
+.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:16px}
+.sec-head h2{margin:0;font-family:var(--bang);font-weight:400;font-size:clamp(32px,4.4vw,48px);letter-spacing:.03em;line-height:1}
+.sec-head p{margin:4px 0 0;color:var(--muted)}
+
+/* ---------- TOOLBAR ---------- */
+.toolbar{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:12px;margin-bottom:18px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.search{flex:1 1 240px;display:flex;align-items:center;gap:8px;background:#000;border:2px solid var(--line);border-radius:12px;padding:0 12px}
+.search input{flex:1;background:transparent;border:0;color:var(--ink);font:inherit;padding:10px 0;outline:none;min-width:0}
+.search:focus-within{border-color:var(--portal)}
+.chip{background:var(--panel2);border:2px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:600;font-size:14px;color:var(--muted);transition:.15s}
+.chip:hover{color:var(--ink);border-color:#555}
+.chip.on{color:#000;background:var(--gold);border-color:var(--gold)}
+.chip.u-ut.on{background:#fff;border-color:#fff}
+.chip.u-sf.on{background:var(--sfpink);border-color:var(--sfpink)}
+.chip.u-rm.on{background:var(--portal);border-color:var(--portal)}
+.chip.u-me.on{background:var(--me);border-color:var(--me)}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-right:4px}
+select,.inp{background:#000;color:var(--ink);border:2px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit;font-size:14px}
+input[type=range]{accent-color:var(--soul);width:160px}
+.big-btn{border:3px solid #000;border-radius:14px;padding:10px 16px;font-weight:700;background:var(--portal);color:#000;box-shadow:4px 4px 0 #fff;transition:.12s}
+.big-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #fff}
+.big-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #fff}
+.big-btn.pink{background:var(--sfpink)} .big-btn.gold{background:var(--gold)} .big-btn.blue{background:var(--rmblue)} .big-btn.ghost{background:var(--panel2);color:var(--ink)}
+.count{font-family:var(--pixel);font-size:10px;color:var(--muted);margin:0 0 12px}
+
+/* ---------- CARDS ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:18px}
+.card{position:relative;padding:16px;display:flex;flex-direction:column;gap:10px;transition:transform .18s, box-shadow .18s;cursor:pointer;min-width:0}
+.card:hover{transform:translateY(-5px) rotate(-.5deg)}
+.card h3{margin:0;line-height:1.2}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.plate{display:flex;flex-wrap:wrap;gap:2px;font-size:30px;line-height:1.1;min-height:36px}
+.plate span{display:inline-block;animation:bob 2.4s ease-in-out infinite}
+.plate span:nth-child(2){animation-delay:.2s}.plate span:nth-child(3){animation-delay:.4s}.plate span:nth-child(4){animation-delay:.6s}.plate span:nth-child(5){animation-delay:.8s}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.card:not(:hover) .plate span{animation-play-state:paused}
+.badge{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:999px;white-space:nowrap}
+.fav{background:none;border:0;padding:2px;width:30px;height:28px;flex:none;opacity:.4;transition:.15s}
+.fav.on{opacity:1;filter:drop-shadow(0 0 6px #ff1f3d)}
+.fav:hover{transform:scale(1.15)}
+.fav svg{width:100%;height:100%}
+.quote{margin:0;font-size:14px;opacity:.85;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.stats{display:flex;align-items:center;gap:12px}
+.pbig{line-height:1}
+.pbig b{font-size:38px;font-weight:700;display:block}
+.pbig small{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;opacity:.75}
+.donut{width:54px;height:54px;flex:none}
+.mini{font-size:13px;display:grid;gap:1px;opacity:.9}
+.mini b{font-weight:700}
+.mbar{display:flex;height:9px;border-radius:6px;overflow:hidden;background:#0004}
+.mbar i{display:block;height:100%}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:11px;font-weight:600;padding:3px 7px;border-radius:6px;background:#ffffff14;white-space:nowrap}
+.acts{display:flex;gap:6px;margin-top:auto}
+.act{flex:1;border-radius:10px;padding:7px 6px;font-weight:700;font-size:13px;background:transparent;border:2px solid currentColor;transition:.12s}
+.act:hover{background:currentColor}
+.act:hover span{filter:invert(1)}
+.lv{font-family:var(--pixel);font-size:9px;padding:4px 6px;border:2px solid currentColor}
+
+/* Undertale cards */
+.card.u-ut{background:#000;border:4px solid #fff;color:#fff}
+.card.u-ut h3{font-family:var(--pixel);font-size:12px;line-height:1.6;color:var(--gold)}
+.card.u-ut .badge{background:#fff;color:#000;border-radius:0;font-family:var(--pixel);font-size:7px;padding:5px 6px}
+.card.u-ut .quote{font-family:var(--pixel);font-size:9px;line-height:1.9}
+.card.u-ut .act{border-radius:0;color:var(--orange);font-family:var(--pixel);font-size:8px;padding:9px 4px}
+.card.u-ut .pbig b{font-family:var(--pixel);font-size:24px;color:var(--gold)}
+.card.u-ut:hover{box-shadow:0 0 0 4px var(--soul)}
+/* Smiling Friends cards */
+.card.u-sf{background:linear-gradient(160deg,#fff6cc,#ffd9ee 70%);color:#2a1830;border:4px solid #2a1830;border-radius:26px;box-shadow:6px 6px 0 #2a1830}
+.card.u-sf h3{font-weight:700;font-size:20px}
+.card.u-sf .badge{background:#2a1830;color:var(--sfyellow)}
+.card.u-sf .tag{background:#2a18301a}
+.card.u-sf .act{color:#2a1830}
+.card.u-sf .pbig b{color:#e0348d}
+.card.u-sf:hover{box-shadow:10px 10px 0 #2a1830}
+.card.u-sf .mbar{background:#2a18302a}
+/* Rick & Morty cards */
+.card.u-rm{background:radial-gradient(circle at 18% 0,#24552e,#0c1d15 62%);border:3px solid var(--portal);border-radius:20px;box-shadow:0 0 22px #97ce4c40}
+.card.u-rm h3{font-family:var(--bang);font-weight:400;font-size:26px;letter-spacing:.03em;color:#d7ff9a;text-shadow:2px 2px 0 #000}
+.card.u-rm .badge{background:var(--portal);color:#0c1d15}
+.card.u-rm .act{color:var(--portal)}
+.card.u-rm .pbig b{color:var(--portal2)}
+.card.u-rm:hover{box-shadow:0 0 40px #97ce4caa}
+/* Custom */
+.card.u-me{background:linear-gradient(160deg,#261b40,#120e20);border:3px dashed var(--me);border-radius:20px}
+.card.u-me h3{font-size:20px;color:#dccbff}
+.card.u-me .badge{background:var(--me);color:#120e20}
+.card.u-me .act{color:var(--me)}
+.card.u-me .pbig b{color:var(--me)}
+.empty{grid-column:1/-1;text-align:center;padding:40px;border:4px solid #fff;background:#000;font-family:var(--pixel);font-size:12px;line-height:2}
+
+/* ---------- MODAL ---------- */
+.modal{position:fixed;inset:0;z-index:80;display:none;align-items:flex-start;justify-content:center;background:#000c;padding:30px 16px;overflow-y:auto}
+.modal.on{display:flex;animation:fadeIn .2s}
+.sheet{width:100%;max-width:860px;background:var(--panel);border:4px solid #fff;position:relative}
+.sheet-head{padding:22px 22px 16px;position:relative;overflow:hidden}
+.sheet-head.u-ut{background:#000}
+.sheet-head.u-sf{background:linear-gradient(135deg,#ffd23f,#ff7ac0);color:#2a1830}
+.sheet-head.u-rm{background:radial-gradient(circle at 80% 30%,#97ce4c88,#0c1d15 60%)}
+.sheet-head.u-me{background:linear-gradient(135deg,#6b4bb5,#1d1433)}
+.sheet-head .plate{font-size:46px}
+.sheet-head h2{margin:8px 0 4px;font-family:var(--bang);font-weight:400;font-size:clamp(30px,5vw,46px);letter-spacing:.03em;line-height:1}
+.sheet-head.u-ut h2{font-family:var(--pixel);font-size:clamp(15px,2.6vw,22px);line-height:1.5;color:var(--gold)}
+.x{position:absolute;right:12px;top:12px;width:40px;height:40px;background:#000;color:#fff;border:3px solid #fff;font-family:var(--pixel);font-size:14px;z-index:2}
+.sheet-body{padding:20px 22px;display:grid;gap:20px}
+.cols{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
+.h4{font-family:var(--pixel);font-size:10px;color:var(--gold);margin:0 0 10px;letter-spacing:.04em}
+.itemlist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.itemlist li{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;background:var(--panel2);border-radius:10px;padding:6px 10px}
+.itemlist .ie{font-size:24px;text-align:center}
+.itemlist .in{font-weight:600;font-size:15px;line-height:1.2}
+.itemlist .iu{font-size:12px;color:var(--muted)}
+.itemlist .ip{font-size:13px;font-weight:700;color:var(--pc);white-space:nowrap}
+.macro-table{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;margin-bottom:14px}
+.macro-table div{background:var(--panel2);border-radius:10px;padding:8px 2px}
+.macro-table b{display:block;font-size:20px}
+.macro-table small{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.amdr{display:grid;gap:10px}
+.amdr-row{display:grid;grid-template-columns:62px 1fr 44px;gap:8px;align-items:center;font-size:13px;font-weight:600}
+.amdr-track{position:relative;height:14px;background:#000;border:2px solid #fff;overflow:visible}
+.amdr-band{position:absolute;top:0;bottom:0;background:#ffffff26;border-left:2px dashed #fff8;border-right:2px dashed #fff8}
+.amdr-fill{position:absolute;left:0;top:0;bottom:0}
+.note{font-size:13px;color:var(--muted);margin:8px 0 0}
+ol.steps{margin:0;padding-left:22px;display:grid;gap:8px}
+ol.steps li::marker{color:var(--gold);font-weight:700}
+.tipbox{background:#97ce4c1a;border:2px solid var(--portal);border-radius:12px;padding:12px 14px;font-size:15px}
+.fight{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 22px 22px}
+.fight button{background:#000;border:3px solid var(--orange);color:var(--orange);font-family:var(--pixel);font-size:10px;padding:14px 6px;display:flex;align-items:center;justify-content:center;gap:8px}
+.fight button:hover,.fight button:focus-visible{color:var(--gold);border-color:var(--gold);outline:none}
+.fight button:hover::before,.fight button:focus-visible::before{content:"♥";color:var(--soul);font-size:12px}
+
+/* ---------- LAB ---------- */
+.lab{display:grid;grid-template-columns:330px 1fr 300px;gap:18px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px}
+.cat-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.cat-tabs .chip{font-size:13px;padding:5px 10px}
+.palette{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:560px;overflow-y:auto;padding-right:4px}
+.pal{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:8px 10px;transition:.12s;min-width:0}
+.pal:hover{border-color:var(--portal);transform:translateY(-2px)}
+.pal .pe{font-size:26px;line-height:1}
+.pal .pn{font-size:13px;font-weight:600;line-height:1.2}
+.pal .pm{font-size:11px;color:var(--muted)}
+.pal .pm b{color:var(--pc)}
+.pal.nut{border-style:dashed}
+.lunchbox{background:linear-gradient(160deg,#ff7ac0,#e24d9d);border:4px solid #000;border-radius:30px;padding:16px;box-shadow:8px 8px 0 #000, 0 0 0 4px #fff inset;position:relative}
+.lunchbox::before{content:"";position:absolute;top:-22px;left:50%;transform:translateX(-50%);width:120px;height:26px;border:6px solid #000;border-bottom:0;border-radius:20px 20px 0 0;background:transparent}
+.lb-name{display:flex;gap:8px;margin-bottom:12px}
+.lb-name input{flex:1;min-width:0;background:#fff;color:#2a1830;border:3px solid #000;border-radius:12px;padding:8px 12px;font:inherit;font-weight:700}
+.bento{display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-template-areas:"main main carb" "main main veg" "fruit extra drink";gap:10px}
+.comp{background:#fff8ee;color:#2a1830;border:3px solid #000;border-radius:16px;padding:8px;min-height:120px;display:flex;flex-direction:column;gap:6px;transition:background .2s}
+.comp.hot{background:#fffbd0;animation:pop .35s}
+@keyframes pop{40%{transform:scale(1.03)}}
+.comp h5{margin:0;font-size:11px;letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between;opacity:.75}
+.comp[data-slot=main]{grid-area:main;min-height:250px} .comp[data-slot=carb]{grid-area:carb} .comp[data-slot=veg]{grid-area:veg}
+.comp[data-slot=fruit]{grid-area:fruit} .comp[data-slot=extra]{grid-area:extra} .comp[data-slot=drink]{grid-area:drink;background:#e8f7ff}
+.comp .hint{margin:auto;font-size:12px;opacity:.5;text-align:center}
+.bi{display:flex;align-items:center;gap:6px;background:#fff;border:2px solid #2a183022;border-radius:10px;padding:4px 6px;animation:pop .3s}
+.bi .be{font-size:22px}
+.bi .bn{flex:1;font-size:12px;font-weight:600;line-height:1.15;min-width:0}
+.bi .bq{font-size:11px;opacity:.7;display:block;font-weight:500}
+.qty{display:flex;gap:2px}
+.qty button{width:24px;height:24px;border-radius:7px;border:2px solid #2a1830;background:#fff;font-weight:700;line-height:1;padding:0;color:#2a1830}
+.qty button:hover{background:var(--sfyellow)}
+.lab-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.hud{background:#000;border:4px solid #fff;padding:14px;display:grid;gap:12px}
+.hud .h4{margin:0}
+.hp{display:grid;grid-template-columns:48px 1fr;gap:8px;align-items:center;font-family:var(--pixel);font-size:9px}
+.hp-track{height:18px;background:#7a0014;position:relative}
+.hp-fill{position:absolute;inset:0 auto 0 0;background:var(--gold);transition:width .4s cubic-bezier(.3,1.4,.5,1)}
+.hp-val{grid-column:2;font-size:9px;color:#fff;margin-top:-4px}
+.target-line{position:absolute;top:-3px;bottom:-3px;width:3px;background:#fff}
+.checks{display:grid;gap:6px;font-size:13px}
+.checks div{display:flex;gap:8px;align-items:center}
+.checks .ok{color:var(--portal)} .checks .no{color:#ff8b8b}
+.verdict{border-top:2px dashed #fff4;padding-top:12px}
+.verdict .dialog{border-width:3px;padding:10px;min-height:0}
+.verdict .dialog .face{font-size:32px;width:40px}
+.verdict .dialog .txt{font-size:10px;min-height:0}
+.target-ctl{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.target-ctl input{width:100%}
+
+/* dial */
+.dialbox{text-align:center}
+.dial{width:220px;height:200px;margin:0 auto;display:block;touch-action:none;cursor:grab;outline:none}
+.dial:active{cursor:grabbing}
+.dial:focus-visible{filter:drop-shadow(0 0 8px var(--gold))}
+.dial .knob{transition:transform .12s ease-out}
+.zone{font-family:var(--pixel);font-size:12px;margin:-6px 0 6px}
+.zone-line{font-size:13px;color:#fffc;min-height:38px;margin:0 0 10px}
+.presets{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:10px}
+.presets button{background:#000;border:2px solid #fff5;color:#fff;font-family:var(--pixel);font-size:7px;padding:6px 5px}
+.presets button.on{border-color:var(--gold);color:var(--gold)}
+.toggle{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:8px}
+.toggle input{accent-color:var(--soul);width:18px;height:18px}
+.bd{width:100%;border-collapse:collapse;font-size:13px}
+.bd th{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:right;padding:4px 6px;border-bottom:1px solid var(--line)}
+.bd th:first-child,.bd td:first-child{text-align:left}
+.bd td{padding:6px;text-align:right;border-bottom:1px dashed var(--line);white-space:nowrap}
+.bd td:first-child{white-space:normal}
+.bd tfoot td{font-weight:700;border-bottom:0;border-top:2px solid #fff;font-size:14px}
+.bd .pcol{color:var(--pc);font-weight:700}
+.bd .share{display:inline-block;height:6px;background:var(--pc);border-radius:3px;vertical-align:middle;margin-left:6px}
+@media (max-width:760px){.bd .hide-sm{display:none}}
+
+/* ---------- WEEK ---------- */
+.week{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.day{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:230px}
+.day.filled{border-color:var(--portal)}
+.day .dn{font-family:var(--pixel);font-size:11px;color:var(--gold)}
+.day .ds{font-size:12px;color:var(--muted);min-height:32px}
+.day .dl{flex:1;display:flex;flex-direction:column;gap:6px;cursor:pointer}
+.day .dl .plate{font-size:26px}
+.day .dl b{font-size:15px;line-height:1.2}
+.day .dl small{color:var(--muted)}
+.day select{width:100%}
+.day .dacts{display:flex;gap:6px}
+.day .dacts button{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px;font-size:13px}
+.week-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+.stat b{font-size:30px;display:block;line-height:1.1}
+.stat small{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.07em;font-weight:700}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.shop{columns:2 220px;column-gap:18px}
+.shop-group{break-inside:avoid;margin-bottom:14px}
+.shop-group h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--portal)}
+.check{display:flex;gap:8px;align-items:flex-start;padding:4px 0;font-size:14px;cursor:pointer}
+.check input{accent-color:var(--soul);margin-top:3px;flex:none}
+.check.done span{text-decoration:line-through;opacity:.5}
+.quest .check{padding:6px 0;border-bottom:1px dashed var(--line)}
+
+/* ---------- COLD ---------- */
+.tips{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.tip{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;position:relative;overflow:hidden}
+.tip .te{font-size:36px}
+.tip h3{margin:6px 0;font-size:19px}
+.tip p{margin:0;color:var(--muted);font-size:15px}
+.tip p b{color:var(--ink)}
+.tip.ut{background:#000;border:4px solid #fff;border-radius:0}
+.tip.ut h3{font-family:var(--pixel);font-size:11px;line-height:1.6;color:var(--gold)}
+.tip.sf{background:linear-gradient(160deg,#fff6cc,#ffd9ee);color:#2a1830;border:3px solid #2a1830}
+.tip.sf p{color:#2a1830cc} .tip.sf p b{color:#2a1830}
+.tip.rm{border:2px solid var(--portal);background:radial-gradient(circle at 10% 0,#1f4d2a,#0c1d15 65%)}
+.tip.rm h3{font-family:var(--bang);font-weight:400;font-size:26px;letter-spacing:.03em;color:#d7ff9a}
+.macro-explainer{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}
+
+/* ---------- OVERLAYS ---------- */
+.roulette{position:fixed;inset:0;z-index:90;background:#000e;display:none;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:16px;text-align:center}
+.roulette.on{display:flex}
+.roulette .portal{position:relative;inset:auto;width:min(320px,70vw);height:min(320px,70vw);animation:pulse 1s ease-in-out infinite}
+.roulette .portal::before{animation-duration:.8s}
+.roulette .portal::after{animation-duration:1.2s}
+.roulette .rname{font-family:var(--bang);font-size:clamp(28px,6vw,54px);color:#d7ff9a;text-shadow:3px 3px 0 #000;min-height:1.2em;letter-spacing:.03em}
+.roulette .rsub{font-family:var(--pixel);font-size:10px;color:var(--gold)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,160%);z-index:100;background:#000;border:4px solid #fff;padding:12px 18px;font-family:var(--pixel);font-size:10px;line-height:1.8;max-width:min(560px,calc(100vw - 32px));transition:transform .3s cubic-bezier(.3,1.4,.5,1);color:#fff}
+.toast.on{transform:translate(-50%,0)}
+.dog{position:fixed;bottom:10px;left:-140px;z-index:95;font-size:70px;pointer-events:none;display:none}
+.dog.run{display:block;animation:dogrun 4s linear forwards}
+@keyframes dogrun{to{left:110vw}}
+.floaty{position:fixed;pointer-events:none;z-index:99;font-size:22px;animation:floaty 1.2s ease-out forwards}
+@keyframes floaty{to{transform:translateY(-120px) scale(1.6);opacity:0}}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:13px}
+footer p{margin:4px 0}
+
+@media (max-width:1100px){
+  .lab{grid-template-columns:1fr 1fr}
+  .lab .hud-col{grid-column:1/-1}
+  .week{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+}
+@media (max-width:760px){
+  .hero-grid{grid-template-columns:1fr;gap:10px}
+  .hero-art{width:240px;height:240px}
+  .smiley{width:72px;height:72px}
+  .lab{grid-template-columns:1fr}
+  .cols,.two{grid-template-columns:1fr}
+  .bento{grid-template-columns:1fr 1fr;grid-template-areas:"main main" "carb veg" "fruit extra" "drink drink"}
+  .comp[data-slot=main]{min-height:150px}
+  .palette{max-height:340px}
+  .fight{grid-template-columns:1fr 1fr}
+  .macro-table{grid-template-columns:repeat(3,1fr)}
+  .dialog .txt{font-size:10px}
+  .card.u-ut .quote{font-size:8px}
+}
+@media print{
+  body.print-list > *{display:none!important}
+  body.print-list #printArea{display:block!important;color:#000;background:#fff;font-family:system-ui;padding:20px}
+  body::before{display:none}
+}
+#printArea{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-art" aria-hidden="true">
+      <div class="orbit">
+        <span style="left:50%;top:-10px">🥚</span><span style="right:-8px;top:46%">🧀</span>
+        <span style="left:48%;bottom:-12px">🍗</span><span style="left:-6px;top:42%">🫐</span>
+      </div>
+      <div class="portal" id="heroPortal" title="Portal roulette!"></div>
+      <div class="soul" id="soul" title="*"></div>
+      <div class="flask" id="flask" title="Wubba lubba grub grub">🧪</div>
+      <svg class="smiley" id="smiley" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#ffd23f" stroke="#2a1830" stroke-width="6"/><ellipse cx="35" cy="38" rx="6" ry="9" fill="#2a1830"/><ellipse cx="65" cy="38" rx="6" ry="9" fill="#2a1830"/><path d="M22 56 Q50 92 78 56 Z" fill="#2a1830"/><path d="M32 66 Q50 80 68 66 Q50 70 32 66Z" fill="#ff7ac0"/></svg>
+    </div>
+    <div>
+      <div class="kicker">♥ NO MICROWAVE · NO HOT WATER · NO PROBLEM</div>
+      <h1 class="title">LUNCHTALE</h1>
+      <div class="subtitle">The <em>Interdimensional</em> Smiling Lunch Lab for a 6th Grader</div>
+      <p class="lede">A pile of high-protein, cold-packable lunches with good macros, sorted into three universes. Filter them, remix them in the Lunchbox Lab, plan the week and get a shopping list.</p>
+      <div class="pills">
+        <span class="pill"><b id="pillCount">48</b> lunches</span>
+        <span class="pill"><b id="pillAvg">30g</b> avg protein</span>
+        <span class="pill"><b>0</b> microwaves</span>
+        <span class="pill"><b>∞</b> DETERMINATION</span>
+      </div>
+      <div class="dialog" id="heroDialog" role="button" tabindex="0" aria-label="Next character quote">
+        <div class="face" id="heroFace">💀</div>
+        <div style="flex:1;min-width:0">
+          <div class="who" id="heroWho">* SANS</div>
+          <div class="txt" id="heroTxt"></div>
+        </div>
+        <div class="next">▼</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="wrap">
+    <button class="tab on" data-tab="library">🍱 Lunch Library</button>
+    <button class="tab" data-tab="lab">🧪 Lunchbox Lab</button>
+    <button class="tab" data-tab="week">📅 Week Planner</button>
+    <button class="tab" data-tab="cold">🧊 Cold Science</button>
+    <span class="spacer"></span>
+    <button class="sound" id="soundBtn" title="Toggle text blips">🔊 blips</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <!-- LIBRARY -->
+  <section class="tabpane on" id="tab-library">
+    <div class="sec-head">
+      <div>
+        <h2>The Lunch Multiverse</h2>
+        <p>Every lunch travels cold with an ice pack and needs no heating. Click a card for the full recipe, macros, and packing steps.</p>
+      </div>
+      <button class="big-btn" id="rouletteBtn">🌀 Portal Roulette</button>
+    </div>
+
+    <div class="toolbar">
+      <div class="row">
+        <label class="search"><span>🔍</span><input id="q" type="search" placeholder="Search lunches, foods, characters… (try “tacos” or “sans”)"></label>
+        <select id="sort" aria-label="Sort">
+          <option value="protein">Sort: Most protein</option>
+          <option value="density">Sort: Protein per calorie</option>
+          <option value="fiber">Sort: Most fiber</option>
+          <option value="prep">Sort: Fastest prep</option>
+          <option value="cal">Sort: Lightest</option>
+          <option value="name">Sort: A → Z</option>
+        </select>
+      </div>
+      <div class="row" id="uniChips">
+        <span class="label">Universe</span>
+        <button class="chip on" data-u="all">✨ All</button>
+        <button class="chip u-ut" data-u="ut">♥ The Underground</button>
+        <button class="chip u-sf" data-u="sf">😄 Smiling Friends Inc.</button>
+        <button class="chip u-rm" data-u="rm">🌀 Dimension C-137</button>
+        <button class="chip u-me" data-u="me">🧪 Your Creations</button>
+      </div>
+      <div class="row" id="dietChips">
+        <span class="label">Needs</span>
+        <button class="chip" data-d="nutfree">🥜🚫 Nut-free</button>
+        <button class="chip" data-d="veg">🌱 Vegetarian</button>
+        <button class="chip" data-d="dairyfree">🥛🚫 Dairy-free</button>
+        <button class="chip" data-d="eggfree">🥚🚫 Egg-free</button>
+        <button class="chip" data-d="gf">🌾🚫 Gluten-free</button>
+        <button class="chip" data-d="fast">⚡ ≤ 5 min</button>
+        <button class="chip" data-d="fav">♥ Favorites</button>
+      </div>
+      <div class="row">
+        <span class="label">Min protein</span>
+        <input type="range" id="minP" min="0" max="40" step="1" value="0">
+        <b id="minPv" style="min-width:36px">0g</b>
+        <span style="color:var(--muted);font-size:13px">A sensible lunch target for an 11-year-old is about 20–30g.</span>
+      </div>
+    </div>
+    <p class="count" id="count"></p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- LAB -->
+  <section class="tabpane" id="tab-lab">
+    <div class="sec-head">
+      <div>
+        <h2>Lunchbox Lab 🧪</h2>
+        <p>Build a lunch from parts: tap ingredients to drop them in the box, and every macro is added up live. Turn the <b>Protein Aggression Dial</b> to set the goal, and switch on auto-portion to resize the protein parts to hit it.</p>
+      </div>
+    </div>
+    <div class="lab">
+      <div class="panel">
+        <div class="cat-tabs" id="catTabs"></div>
+        <div class="palette" id="palette"></div>
+        <p class="note">Dashed border = contains peanuts/tree nuts. Many schools are nut-free, so check first.</p>
+      </div>
+      <div>
+        <div class="lunchbox">
+          <div class="lb-name">
+            <input id="labName" maxlength="60" aria-label="Lunch name" placeholder="Name your lunch…">
+            <button class="big-btn gold" id="nameBtn" title="Random name" style="padding:8px 12px">🎲</button>
+          </div>
+          <div class="bento" id="bento"></div>
+        </div>
+        <div class="lab-acts">
+          <button class="big-btn" id="saveLab">💾 SAVE (to your timeline)</button>
+          <button class="big-btn blue" id="mutateLab">🧬 Rick's Mutator (random)</button>
+          <button class="big-btn pink" id="labToWeek">📅 Add to week</button>
+          <button class="big-btn ghost" id="clearLab">🗑 Clear</button>
+        </div>
+        <div class="panel" style="margin-top:16px">
+          <p class="h4">★ MACRO BREAKDOWN, PART BY PART</p>
+          <div id="breakdown"></div>
+        </div>
+      </div>
+      <div class="hud-col">
+        <div class="hud dialbox" id="dialBox"></div>
+        <div class="hud" id="hud" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEK -->
+  <section class="tabpane" id="tab-week">
+    <div class="sec-head">
+      <div>
+        <h2>The Week Planner 📅</h2>
+        <p>Fill Monday to Friday, then get a combined shopping list and a Sunday prep quest.</p>
+      </div>
+      <div class="row">
+        <button class="big-btn blue" id="autoWeek">🔵 “I'm Mr. Meeseeks! Plan my week!”</button>
+        <button class="big-btn ghost" id="clearWeek">Clear week</button>
+      </div>
+    </div>
+    <div class="week" id="week"></div>
+    <div class="week-stats" id="weekStats"></div>
+    <div class="two">
+      <div class="panel">
+        <div class="sec-head" style="margin-bottom:10px">
+          <div><h2 style="font-size:30px">🛒 Shopping List</h2><p>Combined from the week's lunches.</p></div>
+          <div class="row"><button class="big-btn gold" id="copyList" style="padding:8px 12px">📋 Copy</button><button class="big-btn ghost" id="printList" style="padding:8px 12px">🖨 Print</button></div>
+        </div>
+        <div class="shop" id="shop"></div>
+      </div>
+      <div class="panel quest">
+        <div class="sec-head" style="margin-bottom:10px">
+          <div><h2 style="font-size:30px">⚔️ Sunday Prep Quest</h2><p>About 45 minutes of batch prep makes the weekday mornings go fast.</p></div>
+        </div>
+        <div id="quest"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLD -->
+  <section class="tabpane" id="tab-cold">
+    <div class="sec-head">
+      <div>
+        <h2>Cold Science 🧊</h2>
+        <p>How to keep a no-heat lunch safe, crunchy, and actually eaten.</p>
+      </div>
+    </div>
+    <div class="tips" id="tips"></div>
+    <div class="sec-head" style="margin-top:34px">
+      <div><h2 style="font-size:36px">Macro Math for an 11-Year-Old</h2><p>Figures come from the U.S. Dietary Reference Intakes. They are general guidance, not medical advice.</p></div>
+    </div>
+    <div class="macro-explainer" id="macroExplainer"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>🧮 Nutrition numbers are estimates from typical grocery-label values. Brands vary, so check your labels. Adjust portions for your kid's appetite and activity level.</p>
+    <p>🎮 A fan-made family project. Undertale, Smiling Friends, and Rick and Morty belong to their creators; this page isn't affiliated with them.</p>
+    <p class="pixel" style="font-size:9px;color:#fff6;margin-top:10px">* (Psst. Try the Konami code.)</p>
+  </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<!-- Roulette -->
+<div class="roulette" id="roulette"><div class="rsub">* OPENING A PORTAL TO A RANDOM LUNCH DIMENSION…</div><div class="portal"></div><div class="rname" id="rname"></div></div>
+<div class="toast" id="toast"></div>
+<div class="dog" id="dog">🐕</div>
+<div id="printArea"></div>
+
+<script>
+/*DATA-START*/
+const CATS = {
+  protein:{label:"Protein", e:"🍗"}, cheese:{label:"Dairy", e:"🧀"}, carb:{label:"Grains", e:"🍞"},
+  veg:{label:"Veggies", e:"🥕"}, fruit:{label:"Fruit", e:"🍓"}, crunch:{label:"Crunch", e:"🥨"},
+  dip:{label:"Dips", e:"🥣"}, drink:{label:"Drinks", e:"🥛"}
+};
+// id, category, emoji, name, unit, kcal, protein, carbs, fat, fiber, tags, needs-cold
+const RAW = [
+ ["turkey","protein","🦃","Sliced turkey breast","3 oz",90,15,3,1.5,0,"meat",1],
+ ["chicken","protein","🍗","Cooked chicken breast","3 oz",140,26,0,3,0,"meat",1],
+ ["ham","protein","🐷","Sliced ham","3 oz",90,14,3,2,0,"meat",1],
+ ["roastbeef","protein","🥩","Roast beef","3 oz",110,18,1,3,0,"meat",1],
+ ["salami","protein","🍖","Salami slices","1 oz",110,6,0,9,0,"meat",1],
+ ["pepperoni","protein","🍕","Turkey pepperoni","15 slices",70,9,0,4,0,"meat",1],
+ ["sausage","protein","🌭","Precooked chicken sausage","1 link",150,13,3,9,0,"meat",1],
+ ["meatballs","protein","🧆","Precooked mini chicken meatballs","4 meatballs",150,12,3,10,0,"meat gluten",1],
+ ["jerky","protein","🥓","Beef or turkey jerky","1 oz",80,12,5,1,0,"meat soy",0],
+ ["shrimp","protein","🍤","Cooked peeled shrimp","3 oz",85,20,0,1,0,"shellfish",1],
+ ["tuna","protein","🐟","Tuna pouch","2.5 oz",80,17,0,1,0,"fish",1],
+ ["salmon","protein","🍣","Smoked salmon","2 oz",70,11,0,2.5,0,"fish",1],
+ ["egg","protein","🥚","Hard-boiled egg","1 large",70,6,0.5,5,0,"egg",1],
+ ["eggsalad","protein","🐣","Greek-yogurt egg salad","1/2 cup",170,13,3,12,0,"egg dairy",1],
+ ["chxsalad","protein","🥗","Greek-yogurt chicken salad","1/2 cup",150,18,4,7,0,"meat dairy",1],
+ ["tunasalad","protein","🐠","Greek-yogurt tuna salad","1/2 cup",130,20,3,4,0,"fish dairy",1],
+ ["tofu","protein","🟫","Baked seasoned tofu","3 oz",140,14,3,8,1,"soy",1],
+ ["edamame","protein","🫛","Shelled edamame","1/2 cup",95,9,7,4,4,"soy",1],
+ ["blackbeans","protein","🫘","Black beans, rinsed","1/2 cup",110,7,20,0.5,7,"",1],
+ ["chickpeas","protein","🟡","Chickpeas, rinsed","1/2 cup",135,7,22,2,6,"",1],
+
+ ["yogurt","cheese","🥣","Greek yogurt, 2%","3/4 cup",130,17,6,4,0,"dairy",1],
+ ["cottage","cheese","☁️","Cottage cheese, 2%","1/2 cup",90,12,5,2.5,0,"dairy",1],
+ ["string","cheese","🧀","String cheese","1 stick",80,7,1,6,0,"dairy",1],
+ ["cheddar","cheese","🟨","Cheddar cubes","1 oz",115,7,0,9,0,"dairy",1],
+ ["swiss","cheese","🫕","Swiss cheese","1 slice",100,7,0,8,0,"dairy",1],
+ ["babybel","cheese","🔴","Mini Babybel","1 wheel",70,5,0,6,0,"dairy",1],
+ ["mozz","cheese","⚪","Mozzarella pearls","1 oz",70,5,0,5,0,"dairy",1],
+ ["feta","cheese","🤍","Feta crumbles","1 oz",75,4,1,6,0,"dairy",1],
+
+ ["tortilla","carb","🌯","Whole-wheat tortilla (8 in)","1 tortilla",130,4,22,3,3,"gluten",0],
+ ["spinachtort","carb","🟩","Spinach tortilla (10 in)","1 tortilla",210,6,36,5,2,"gluten",0],
+ ["bread","carb","🍞","Whole-grain bread","2 thin slices",140,6,26,2,4,"gluten",0],
+ ["bagelthin","carb","🥯","Whole-wheat bagel thin","1 bagel thin",110,5,24,1,5,"gluten",0],
+ ["minibagel","carb","🥯","Mini bagels","2 mini bagels",140,5,28,1,2,"gluten",0],
+ ["pita","carb","🫓","Whole-wheat pita (6.5 in)","1 pita",170,6,35,1.5,5,"gluten",0],
+ ["rolls","carb","🍔","Slider rolls","2 rolls",180,6,30,4,1,"gluten dairy egg",0],
+ ["crackers","carb","🍘","Whole-grain crackers","6 crackers",120,3,20,3.5,3,"gluten",0],
+ ["pretzels","carb","🥨","Pretzels","1 oz",110,3,23,1,1,"gluten",0],
+ ["chips","carb","🔺","Tortilla chips","1 oz",140,2,19,7,1,"",0],
+ ["bluechips","carb","🔷","Blue corn chips","1 oz",140,2,18,7,2,"",0],
+ ["banza","carb","🍝","Chickpea pasta, cooked","1 cup",190,11,32,3.5,5,"",1],
+ ["soba","carb","🍜","Soba noodles, cooked","1 cup",115,6,24,0.1,1,"gluten",1],
+ ["rice","carb","🍚","Rice, cooked","1/2 cup",110,2.5,23,1,1,"",1],
+ ["quinoa","carb","🌾","Quinoa, cooked","1/2 cup",110,4,20,2,2.5,"",1],
+ ["waffle","carb","🧇","Protein waffles, cooled","2 waffles",220,12,30,7,3,"gluten dairy egg",0],
+ ["ricecakes","carb","💿","Rice cakes","2 cakes",70,2,15,0.5,0.5,"",0],
+ ["granola","carb","🟤","Granola","1/4 cup",120,3,18,4,2,"gluten",0],
+ ["popcorn","carb","🍿","Popcorn","3 cups",95,3,19,1,3.5,"",0],
+
+ ["carrots","veg","🥕","Baby carrots","1/2 cup",30,0.5,7,0,2,"",0],
+ ["cucumber","veg","🥒","Cucumber slices","1/2 cup",8,0.3,2,0,0.3,"",0],
+ ["snappeas","veg","🌱","Sugar snap peas","1/2 cup",20,1,4,0,1.5,"",0],
+ ["tomatoes","veg","🍅","Cherry tomatoes","1/2 cup",15,0.7,3,0,1,"",0],
+ ["pepper","veg","🫑","Bell pepper strips","1/2 cup",20,0.7,4.5,0,1.5,"",0],
+ ["broccoli","veg","🥦","Broccoli florets","1/2 cup",15,1,3,0,1.2,"",0],
+ ["celery","veg","🪵","Celery sticks","2 stalks",12,0.5,2.5,0,1.2,"",0],
+ ["lettuce","veg","🥬","Romaine lettuce","1 cup",8,0.6,1.5,0,1,"",0],
+ ["corn","veg","🌽","Sweet corn","1/4 cup",35,1.2,7.5,0.5,1,"",1],
+ ["spinach","veg","🍃","Baby spinach","1 cup",7,0.9,1,0,0.7,"",0],
+ ["avocado","veg","🥑","Avocado","1/2 avocado",120,1.5,6,11,5,"",1],
+ ["pickle","veg","🫙","Dill pickle spears","2 spears",10,0.3,2,0,0.8,"",0],
+ ["olives","veg","🫒","Olives","6 olives",30,0.2,1,3,0.6,"",0],
+
+ ["apple","fruit","🍎","Apple slices","1 apple",95,0.5,25,0.3,4.4,"",0],
+ ["grapes","fruit","🍇","Grapes","1 cup",100,1,27,0.2,1.4,"",0],
+ ["berries","fruit","🫐","Blueberries or mixed berries","1/2 cup",40,0.5,10,0.3,2.5,"",0],
+ ["strawberries","fruit","🍓","Strawberries","1/2 cup",25,0.5,6,0.2,1.5,"",0],
+ ["clementines","fruit","🍊","Clementines","2 clementines",70,1.2,18,0.2,2.6,"",0],
+ ["banana","fruit","🍌","Banana","1 small banana",90,1.1,23,0.3,2.6,"",0],
+ ["pineapple","fruit","🍍","Pineapple chunks","1/2 cup",40,0.4,11,0,1.2,"",0],
+ ["watermelon","fruit","🍉","Watermelon cubes","1 cup",45,0.9,12,0.2,0.6,"",1],
+ ["mango","fruit","🥭","Mango chunks","1/2 cup",50,0.7,12,0.3,1.3,"",0],
+ ["kiwi","fruit","🥝","Golden kiwi","2 kiwis",100,1.5,24,0.5,3,"",0],
+ ["raisins","fruit","🍇","Raisins","2 Tbsp",60,0.6,16,0,0.7,"",0],
+ ["fdstraw","fruit","🍓","Freeze-dried strawberries","1/3 cup",30,0.5,8,0,1.5,"",0],
+
+ ["pepitas","crunch","🎃","Pumpkin seeds","2 Tbsp",90,5,2,7,1,"",0],
+ ["almonds","crunch","🌰","Almonds","1 oz",165,6,6,14,3.5,"nut",0],
+ ["roastchick","crunch","🟠","Crunchy roasted chickpeas","1/4 cup",120,6,18,3,5,"",0],
+ ["seaweed","crunch","🌊","Roasted seaweed snack","1 pack",30,1,1,2,0.5,"",0],
+ ["whisps","crunch","✨","Parmesan cheese crisps","1 small bag",100,9,1,7,0,"dairy",0],
+ ["darkchoc","crunch","🍫","Dark chocolate chips","1 Tbsp",70,1,9,4,1,"",0],
+ ["protbar","crunch","🏋️","Kid-size protein bar","1 bar",190,10,22,7,3,"dairy gluten soy",0],
+ ["energybites","crunch","⚡","SunButter-oat energy bites","2 bites",180,8,18,9,2,"gluten",0],
+
+ ["hummus","dip","🫘","Hummus","3 Tbsp",105,3,6,7.5,2.5,"",1],
+ ["yoranch","dip","🤍","Greek-yogurt ranch dip","1/4 cup",45,5,2,1.5,0,"dairy",1],
+ ["tzatziki","dip","🫗","Tzatziki","1/4 cup",60,3,3,4,0,"dairy",1],
+ ["guac","dip","🥑","Guacamole cup","2 oz",100,1,5,9,3,"",1],
+ ["salsa","dip","💃","Salsa","1/4 cup",20,1,4,0,1,"",0],
+ ["marinara","dip","🥫","Marinara","1/4 cup",35,1,6,1,1,"",0],
+ ["sunbutter","dip","🌻","SunButter (sunflower seed butter)","2 Tbsp",200,7,6,16,2,"",0],
+ ["pbutter","dip","🥜","Peanut butter","2 Tbsp",190,7,7,16,2,"nut",0],
+ ["teriyaki","dip","🥢","Sesame-ginger or teriyaki sauce","1 Tbsp",30,0.5,6,0.5,0,"soy gluten",0],
+ ["italian","dip","🧴","Italian dressing","1 Tbsp",35,0,2,3,0,"",0],
+ ["pesto","dip","🌿","Pesto","1 Tbsp",80,1.5,1,8,0,"dairy nut",1],
+ ["caesar","dip","🥗","Light Caesar dressing","1 Tbsp",40,0.5,2,3.5,0,"dairy egg fish",1],
+ ["cocktail","dip","🌶️","Cocktail sauce","2 Tbsp",30,0.3,7,0,0.3,"",0],
+ ["mustard","dip","💛","Honey mustard","1 Tbsp",30,0,5,1,0,"",0],
+ ["creamcheese","dip","🫧","Whipped cream cheese","2 Tbsp",50,1,1,5,0,"dairy",1],
+ ["honey","dip","🍯","Honey drizzle","1 tsp",20,0,6,0,0,"",0],
+
+ ["water","drink","💧","Frozen water bottle (bonus ice pack!)","16 oz",0,0,0,0,0,"",0],
+ ["milk","drink","🥛","1% milk box","8 oz",110,8,12,2.5,0,"dairy",1],
+ ["fairlife","drink","🥤","Ultra-filtered chocolate milk","8 oz",140,13,13,4.5,0,"dairy",1],
+ ["kefir","drink","🧃","Drinkable kefir","8 oz",120,10,14,2,0,"dairy",1],
+ ["soymilk","drink","🫗","Soy milk box","8 oz",110,8,9,4.5,1,"soy",0]
+];
+const COMP = {};
+RAW.forEach(r => { COMP[r[0]] = {id:r[0],cat:r[1],e:r[2],n:r[3],u:r[4],cal:r[5],p:r[6],c:r[7],f:r[8],fb:r[9],t:r[10]?r[10].split(" "):[],cold:!!r[11]}; });
+
+const FACES = {"Toriel":"🐐","Sans":"💀","Papyrus":"🦴","Undyne":"🐟","Alphys":"🦎","Mettaton":"🤖","Temmie":"🐱","Napstablook":"👻","Flowey":"🌼","Asgore":"👑","Burgerpants":"🍔","Nice Cream Guy":"🍦","Mad Dummy":"🎎","Narrator":"⭐","Annoying Dog":"🐶","Pim":"😄","Charlie":"😐","Allan":"📋","The Boss":"💼","Glep":"🟢","Mr. Frog":"🐸","Gwimbly":"🎮","Mr. President":"🎖️","Frowning Friends":"😠","Shrimp":"🦐","Rick":"🧪","Morty":"😰","Mr. Meeseeks":"🔵","Squanchy":"😼","Birdperson":"🐦","Mr. Poopybutthole":"🎩","Cromulon":"🗿","Ants in My Eyes Johnson":"🐜","Jerry":"🤓","Unity":"👁️","Tiny Rick":"🎸","Interdimensional Cable":"📺","You":"🧑‍🔬"};
+
+const LUNCHES = [
+/* ============ THE UNDERGROUND (Undertale) ============ */
+{id:"toriel",u:"ut",name:"Toriel's Butterscotch-Cinnamon Parfait",who:"Toriel",
+ q:"Which do you prefer, cinnamon or butterscotch? ...I packed both. And two eggs. For strength, my child.",
+ items:[["yogurt",1],["granola",1],["berries",1],["egg",2],["honey",1]],prep:5,
+ steps:["Spoon Greek yogurt into a leak-proof jar. Stir in a pinch of cinnamon and a drizzle of honey (the butterscotch vibe).","Pack granola in a SEPARATE little bag so it stays crunchy. Sprinkle it on at lunch.","Berries go on top or in their own cup.","Peel two hard-boiled eggs (boiled on Sunday) and add a pinch of salt in a tiny foil twist."],
+ tip:"Butterscotch hack: a few drops of vanilla plus the honey tastes surprisingly like butterscotch pudding."},
+{id:"sans",u:"ut",name:"Sans's Snowdin Cold Dog",who:"Sans",
+ q:"it's a cold dog, kid. i woulda heated it up, but i'm not really a *hot take* kinda guy.",
+ items:[["sausage",1],["tortilla",1],["mustard",1],["snappeas",1],["clementines",1],["fairlife",1]],prep:5,
+ steps:["Precooked chicken sausage is fully cooked, so it's safe and tasty cold. Slice it lengthwise.","Spread honey mustard on a tortilla, add the sausage, and roll it up tight like a burrito.","Wrap in foil, then cut in half so it looks like two tiny hot dogs in sleeping bags.","Add snap peas and clementines. Freeze the chocolate milk overnight if you want it slushy by lunch."],
+ tip:"Sans sells hot dogs in Snowdin for 30G. This one costs 0G and has 30+ grams of protein."},
+{id:"papyrus",u:"ut",name:"Papyrus's Great Spaghetti (Actually Edible)",who:"Papyrus",
+ q:"NYEH HEH HEH! BEHOLD! A SPAGHETTI SO COLD AND SO DELICIOUS, EVEN SANS WILL PUT DOWN HIS KETCHUP!",
+ items:[["banza",1],["chicken",0.67],["mozz",1],["tomatoes",1],["italian",1],["grapes",0.5]],prep:10,
+ steps:["Cook chickpea pasta the night before, rinse under cold water, and toss with Italian dressing so it doesn't clump.","Morning: add diced chicken, mozzarella pearls, and halved cherry tomatoes.","Pack in a pre-chilled insulated jar with a fork.","Grapes on the side. The great Papyrus insists."],
+ tip:"Chickpea pasta has about twice the protein and fiber of regular pasta and holds up great cold."},
+{id:"monstercandy",u:"ut",name:"Monster Candy Bento (Take One)",who:"Narrator",
+ q:"* You took a piece of candy. (Your kid took the whole bento.) * It has a distinct, non-licorice protein flavor.",
+ items:[["edamame",1],["cheddar",1],["pepperoni",1],["crackers",1],["grapes",0.5],["darkchoc",1]],prep:5,
+ steps:["Use a bento box with 5–6 compartments. Every snack gets its own room, Monster Candy bowl style.","Edamame (thawed from frozen, no cooking needed), cheddar cubes, turkey pepperoni, crackers, grapes.","Tuck a few dark chocolate chips in the tiniest spot as the ‘Monster Candy’."],
+ tip:"Frozen shelled edamame just needs thawing in the fridge overnight. Zero cooking."},
+{id:"undyne",u:"ut",name:"Undyne's Spear of Justice Skewers",who:"Undyne",
+ q:"NGAAAHHH!! PROTEIN! STRAIGHT TO THE FACE! ...wait. Eat it with your MOUTH. That's what I meant.",
+ items:[["chicken",1],["mozz",1],["cucumber",1],["tomatoes",1],["pita",0.5],["tzatziki",1],["strawberries",1]],prep:10,
+ steps:["Thread chicken cubes, mozzarella pearls, cucumber, and tomatoes onto blunt skewers (lollipop sticks or coffee stirrers work great).","Cut half a pita into triangles, the ‘shields’.","Pack tzatziki in a leak-proof dip cup for dunking.","Strawberries for the victory lap."],
+ tip:"Snip the pointy ends off wooden skewers, or use paper lollipop sticks. Some schools ban sharp stuff."},
+{id:"grillby",u:"ut",name:"Grillby's Cold-Cut Sliders",who:"Sans",
+ q:"grillby's makes a mean burger. this one's cold, but so is my humor. ...kidding. grillby's the only hot thing down here.",
+ items:[["rolls",1],["roastbeef",1],["cheddar",0.5],["pickle",1],["roastchick",1],["apple",0.5]],prep:5,
+ steps:["Split two slider rolls. Layer roast beef and a slice of cheddar.","Pack pickles in their own container so the buns don't get soggy. Add them at lunch.","Crunchy roasted chickpeas stand in for fries (salty, crunchy, 6g protein).","Half an apple, sliced and dunked in lemon water."],
+ tip:"Swap in turkey or ham if roast beef isn't a hit. Same protein ballpark."},
+{id:"temmie",u:"ut",name:"Tem Flakes Crunch Cup (hOI!)",who:"Temmie",
+ q:"hOI!!! tem flakes!! yaya!! is gud 4 protein!! tem go to colleg for DIS!!",
+ items:[["yogurt",1],["granola",1],["fdstraw",1],["babybel",2],["pepitas",1]],prep:3,
+ steps:["Greek yogurt in a jar. Granola, freeze-dried strawberries, and pumpkin seeds in a separate bag. That's the ‘Tem Flakes’.","Kid pours the Tem Flakes on at lunch for max crunch.","Two Babybels ride along (tem thinks they look like tem's hat)."],
+ tip:"Freeze-dried fruit stays crunchy and doesn't leak. Perfect cereal-style topping."},
+{id:"mettaton",u:"ut",name:"Mettaton's Rainbow EX Pinwheels",who:"Mettaton",
+ q:"OHHH YES! Darling, a lunch this FABULOUS deserves RATINGS! And the ratings are... THROUGH THE ROOF!",
+ items:[["spinachtort",1],["turkey",1],["creamcheese",1],["pepper",1],["string",1],["strawberries",1]],prep:10,
+ steps:["Spread whipped cream cheese edge-to-edge on a big spinach tortilla. That's the glue.","Layer turkey, then thin strips of red, yellow, and orange bell pepper in rows for rainbow stripes.","Roll TIGHT, wrap in plastic, chill 10 minutes, and slice into 1-inch pinwheels.","String cheese and strawberries for the encore."],
+ tip:"Slice pinwheels with a serrated knife and they'll stay perfectly round. Showbiz!"},
+{id:"alphys",u:"ut",name:"Alphys's Upgraded Not-Instant Noodles",who:"Alphys",
+ q:"I-I usually just eat instant noodles... but these are c-cold AND have 34 grams of protein?! That's, um, s-scientifically incredible!",
+ items:[["soba",1],["chicken",0.67],["edamame",1],["teriyaki",1],["cucumber",1],["mango",1]],prep:10,
+ steps:["Cook soba the night before, rinse in cold water, toss with sesame-ginger sauce.","Add shredded chicken, thawed edamame, and cucumber matchsticks.","Pack in a pre-chilled insulated jar with chopsticks for anime-level coolness.","Mango chunks on the side."],
+ tip:"Cold sesame noodles are a classic. They taste better cold than hot!"},
+{id:"napstablook",u:"ut",name:"Napstablook's Ghost Sandwich",who:"Napstablook",
+ q:"oh... i made a sandwich... it's shaped like me... sorry if that's weird... i'll just... float away now...",
+ items:[["bread",1],["eggsalad",1],["cucumber",1],["apple",1],["milk",1]],prep:10,
+ steps:["Make egg salad with Greek yogurt instead of mayo (more protein, same creamy).","Spread on whole-grain bread and cut with a ghost-shaped cookie cutter. Two raisin eyes optional.","Put a lettuce leaf or cucumber slices between the egg salad and bread to stop sogginess.","Apple slices and a milk box."],
+ tip:"Egg salad MUST stay cold. Use two ice packs, or freeze the milk box as one."},
+{id:"flowey",u:"ut",name:"Flowey's Friendliness Pellets",who:"Flowey",
+ q:"Howdy! I'm FLOWEY. FLOWEY the FLOWER! See these? They're FRIENDLINESS PELLETS! ...okay, they're meatballs. They're actually friendly this time.",
+ items:[["meatballs",1.5],["marinara",1],["mozz",1],["pretzels",1],["grapes",0.5]],prep:5,
+ steps:["Precooked chicken meatballs are great cold. Thaw them in the fridge overnight if they're frozen.","Pack marinara in a dip cup for dunking with a fork or pick.","Mozzarella pearls and pretzel twists alongside, arranged in a flower shape if you're feeling Flowey."],
+ tip:"Check the meatball label for ‘fully cooked’. Some brands have 15g+ protein per serving."},
+{id:"dogsalad",u:"ut",name:"Dog Salad (No Dogs Were Used)",who:"Annoying Dog",
+ q:"* It's Dog Salad. Heals ??? HP. * (It's a tuna-chickpea salad. The Annoying Dog just ate the lid.)",
+ items:[["tunasalad",1],["chickpeas",0.5],["cucumber",1],["tomatoes",1],["crackers",1],["string",1],["clementines",0.5]],prep:10,
+ steps:["Mix a tuna pouch with Greek yogurt, a squeeze of lemon, and a pinch of dill.","Fold in rinsed chickpeas, diced cucumber, and halved tomatoes.","Crackers on the side for scooping, which is way more fun than a fork.","String cheese and a clementine."],
+ tip:"Tuna pouches (not cans) have no draining and less smell. Classroom-friendly."},
+{id:"nicecream",u:"ut",name:"Nice Cream Protein Slushie",who:"Nice Cream Guy",
+ q:"You're gonna love this! Nice Cream!! ...it's a frozen protein smoothie that turns slushie by lunchtime. Also: it's a FREE ice pack!",
+ items:[["kefir",1],["yogurt",0.5],["berries",1],["banana",0.5],["bagelthin",1],["sunbutter",0.5]],prep:5,
+ steps:["Night before: blend kefir, Greek yogurt, berries, and half a banana.","Pour into a wide-mouth insulated bottle (leave room, since it expands) and freeze.","By lunch it's a thick slushie. Pack a spoon!","Bagel thin with SunButter on the side."],
+ tip:"Double duty: the frozen smoothie keeps everything else in the bag cold."},
+{id:"hotland",u:"ut",name:"Hotland Heat-Free Nachos",who:"Burgerpants",
+ q:"Hey kid. Nice nachos. Way better than anything at MTT Burger Emporium. ...honestly, everything is.",
+ items:[["chips",1],["blackbeans",0.5],["chicken",0.67],["cheddar",0.5],["salsa",1],["guac",0.5]],prep:5,
+ steps:["Pack chips in their own bag. Soggy nachos are a war crime.","Container 1: shredded chicken and rinsed black beans. Container 2: shredded cheddar.","Salsa and a mini guac cup to pile on at lunch.","Kid builds their own nacho plate. Cold nachos slap."],
+ tip:"Mini guacamole cups are sealed, so they won't brown before lunch."},
+{id:"savepoint",u:"ut",name:"SAVE Point Snack Board",who:"Narrator",
+ q:"* The sight of a fully packed lunchbox fills you with DETERMINATION.",
+ items:[["salami",1],["turkey",0.67],["cheddar",1],["crackers",1],["grapes",0.5],["pepitas",1]],prep:5,
+ steps:["DIY ‘lunchable’: salami, rolled turkey, cheddar slices, and crackers stacked in rows.","Grapes in one corner, pumpkin seeds in another.","Add a star-shaped cheese cutout as the SAVE point. ⭐"],
+ tip:"Homemade lunchables beat store ones on protein and cost, and you control the salt."},
+{id:"asgore",u:"ut",name:"Asgore's Golden Flower Tea Party",who:"Asgore",
+ q:"Howdy! ...Oh, forgive me. Would you like a cup of tea? No? Then perhaps some golden kiwi... and a very strong chicken salad.",
+ items:[["chxsalad",1],["crackers",1],["kiwi",1],["cucumber",1],["string",1]],prep:10,
+ steps:["Chicken salad made with Greek yogurt, diced celery, and a little mustard.","Pack with whole-grain crackers for scooping, tea-party style.","Golden kiwi halved with a spoon (the golden flowers).","Cucumber rounds and a string cheese."],
+ tip:"Golden kiwis are sweeter than green and have loads of vitamin C."},
+{id:"maddummy",u:"ut",name:"Mad Dummy's Furious Tofu Bento",who:"Mad Dummy",
+ q:"FOOLISH FOOLS! You dare pack TOFU?! ...it's actually really good. DON'T TELL ANYONE.",
+ items:[["tofu",1],["rice",1],["edamame",1],["teriyaki",1],["broccoli",1],["clementines",1]],prep:10,
+ steps:["Buy baked or seasoned tofu (ready to eat) and cube it.","Rice cooked in the morning stays softer than fridge-cold rice. Or use a rice pouch at room temp.","Edamame, raw broccoli florets, and a teriyaki dip cup.","Clementines to calm the rage."],
+ tip:"Pre-baked tofu is firm and snackable cold. No pressing or cooking."},
+
+/* ============ SMILING FRIENDS INC. ============ */
+{id:"pim",u:"sf",name:"Pim's Big Pink Smile Box",who:"Pim",
+ q:"Oh my gosh, hi!! I'm Pim from Smiling Friends! Our job is to make people smile, and this lunch literally HAS a smile made of watermelon!",
+ items:[["ham",1],["bagelthin",1],["creamcheese",1],["babybel",1],["watermelon",1],["strawberries",1],["yoranch",1],["carrots",1]],prep:10,
+ steps:["Bagel thin with cream cheese and ham, a pink sandwich for a pink guy.","Cut a watermelon wedge into a smile shape. Strawberries are the cheeks.","Carrots with Greek-yogurt ranch for dipping.","A Babybel on top, because Pim would."],
+ tip:"Greek-yogurt ranch = plain Greek yogurt + ranch seasoning. 5g protein per scoop instead of 0."},
+{id:"charlie",u:"sf",name:"Charlie's “Whatever, Man” Caesar Wrap",who:"Charlie",
+ q:"Yeah, it's a wrap. It's good. I dunno what you want me to say, man. ...okay, it's REALLY good.",
+ items:[["tortilla",1],["chicken",1],["lettuce",1],["caesar",1],["whisps",1],["grapes",0.5]],prep:5,
+ steps:["Toss chopped chicken and romaine with Caesar dressing. Keep the dressing light so the wrap doesn't go soggy.","Roll tight in a tortilla, wrap in foil, cut in half.","Parmesan crisps are the ‘croutons’ on the side.","Grapes. Whatever, man."],
+ tip:"Whopping 40g protein. Charlie won't say it, but this is a protein monster."},
+{id:"allan",u:"sf",name:"Allan's Meticulously Organized Protein Grid",who:"Allan",
+ q:"Each compartment has been measured, labeled, and filed in triplicate. Please do not mix the edamame with the carrots. I will know.",
+ items:[["turkey",0.67],["egg",1],["string",1],["edamame",1],["crackers",1],["carrots",1],["berries",1]],prep:5,
+ steps:["Use a 6-compartment bento box. One food per cell, no touching (Allan's rules).","Turkey roll-ups, a hard-boiled egg, a string cheese, edamame, crackers, carrots, berries.","Optional: a tiny label-maker label on the lid. Allan would be proud."],
+ tip:"Kids with texture preferences often LOVE no-touching bento boxes."},
+{id:"boss",u:"sf",name:"The Boss's Executive Roast Beef Stack",who:"The Boss",
+ q:"Excellent work, team. This lunch is going straight into your quarterly smile review.",
+ items:[["bread",1],["roastbeef",1],["swiss",1],["lettuce",0.5],["mustard",1],["pretzels",1],["apple",0.5]],prep:5,
+ steps:["Whole-grain bread, roast beef, swiss, and lettuce. Put the lettuce next to the bread as a moisture shield.","Honey mustard in a dip cup (sandwich stays crisp).","Pretzels and apple slices, executive style."],
+ tip:"A thin layer of butter or cream cheese on the bread also blocks sogginess."},
+{id:"glep",u:"sf",name:"Glep's Glorp Bowl",who:"Glep",
+ q:"Glep glorp! Blep blorp glep! (Translation: 35 grams of protein and it's all GREEN. Glep approves.)",
+ items:[["banza",1],["chicken",0.67],["pesto",1],["edamame",0.5],["cucumber",1],["grapes",0.5]],prep:10,
+ steps:["Toss cold chickpea pasta with pesto, diced chicken, and edamame.","Cucumber and green grapes on the side. Everything must be green, glep.","Pack in a chilled insulated jar."],
+ tip:"Nut-free school? Use a nut-free pesto (sunflower-seed or basil-only) or swap for Italian dressing."},
+{id:"mrfrog",u:"sf",name:"Mr. Frog's Lily Pad Snack Pond",who:"Mr. Frog",
+ q:"Hey kids! It's me, Mr. Frog! Totally original character! Eat your greens or I'll... uh... RIBBIT!",
+ items:[["hummus",1],["pita",0.5],["chicken",0.67],["mozz",1],["cucumber",1],["snappeas",1],["kiwi",1]],prep:5,
+ steps:["Hummus is the pond. Cucumber rounds are the lily pads.","Pita triangles, sliced chicken, and mozzarella pearls (frog eggs, lol) around it.","Snap peas and kiwi to keep the green theme going."],
+ tip:"Swirling a little olive oil and paprika on the hummus makes it look like a real pond."},
+{id:"gwimbly",u:"sf",name:"Gwimbly's Speedrun Grab-Bag",who:"Gwimbly",
+ q:"Gwimbly gwimbly! (Any% lunch route: zero prep, zero knives, 38g protein. NEW WORLD RECORD.)",
+ items:[["jerky",1],["string",1],["protbar",1],["apple",1],["milk",1]],prep:1,
+ steps:["Grab: jerky, string cheese, protein bar, whole apple, milk box.","Throw in bag. Done. Frame-perfect.","Toss in an ice pack for the cheese and milk."],
+ tip:"Keep a ‘speedrun bin’ in the pantry and fridge so the kid can pack this one themselves."},
+{id:"pizza",u:"sf",name:"Smiling Friends Inc. Pizza Pinwheels",who:"The Boss",
+ q:"Another satisfied customer. Smile rate: 100%. Crust rate: also 100%.",
+ items:[["tortilla",1],["marinara",0.5],["string",1],["pepperoni",1],["pepper",1],["clementines",1],["milk",1]],prep:10,
+ steps:["Spread a thin layer of marinara on a tortilla (thin, or it gets soggy).","Pull apart a string cheese and scatter it over, then add turkey pepperoni.","Roll tight, chill 10 min, slice into pinwheels.","Pepper strips, clementines, milk."],
+ tip:"Cold pizza is elite. Cold pizza PINWHEELS are elite and portable."},
+{id:"shrimp",u:"sf",name:"Shrimp's Shrimp Cocktail Odyssey",who:"Shrimp",
+ q:"Shrimp just wanted to live a normal life. This shrimp just wants to be dunked in cocktail sauce. (No relatives were involved.)",
+ items:[["shrimp",1],["cocktail",1],["crackers",1],["cucumber",1],["string",1],["clementines",1]],prep:3,
+ steps:["Buy pre-cooked, peeled, tail-off shrimp (the frozen bag, thawed overnight in the fridge).","Cocktail sauce in a leak-proof dip cup.","Crackers, cucumber, string cheese, clementines."],
+ tip:"Shrimp is ~20g protein per 3 oz and almost zero fat. Keep it very cold with two ice packs."},
+{id:"frowning",u:"sf",name:"Frowning Friends' Grumpy Grain Bowl",who:"Frowning Friends",
+ q:"Ugh. Balanced macros. Colorful veggies. DISGUSTING. We're only frowning because we're jealous.",
+ items:[["quinoa",1],["blackbeans",0.5],["chicken",0.67],["corn",1],["salsa",1],["cheddar",0.5],["mango",1]],prep:10,
+ steps:["Batch-cook quinoa on Sunday. It stays fluffy cold (unlike rice).","Layer quinoa, black beans, shredded chicken, corn, and cheddar.","Salsa on the side to drizzle. Mango chunks for dessert."],
+ tip:"Quinoa is a complete protein, and it's one of the few grains that tastes great straight from the fridge."},
+{id:"president",u:"sf",name:"Mr. President's Top Secret Chicken Salad",who:"Mr. President",
+ q:"This lunch has been classified TOP SECRET. Eat it before the enemy does. That's an executive order.",
+ items:[["chxsalad",1],["bread",1],["lettuce",0.5],["pickle",1],["string",1],["grapes",0.5]],prep:10,
+ steps:["Chicken salad with Greek yogurt, diced apple or celery, and a little honey mustard.","Lettuce layer on the bread, then chicken salad. Cut into ‘classified document’ rectangles.","Pickles in their own container. Grapes and string cheese."],
+ tip:"Rotisserie chicken from the store makes chicken salad a 5-minute job."},
+{id:"waffle",u:"sf",name:"Charlie's Protein Waffle-wich",who:"Charlie",
+ q:"Pim said I can't just put sunflower butter between waffles and call it lunch. ...I can. And I did.",
+ items:[["waffle",1],["sunbutter",1],["banana",0.5],["milk",1]],prep:5,
+ steps:["Toast protein waffles in the morning, then let them cool completely (warm waffles sweat and get soggy).","Spread SunButter and add banana slices between them. Waffle sandwich!","Cut into quarters. Milk box on the side."],
+ tip:"Label it ‘SunButter’. Some nut-free schools will question anything that looks like PB."},
+{id:"smilecheck",u:"sf",name:"Smile Check Shawarma Pocket",who:"Pim",
+ q:"Smile check! Are you smiling? ...Great! That's literally our whole job!",
+ items:[["pita",1],["chicken",1],["hummus",1],["cucumber",1],["tomatoes",1],["feta",0.5]],prep:10,
+ steps:["Season sliced chicken with a pinch of cumin and paprika (shawarma-ish).","Pack the pita whole. Stuffing happens at lunch so it stays fresh.","Hummus spread, cucumber, tomatoes, and feta in a bento cup."],
+ tip:"38g protein. This is one of the highest-protein lunches in the whole library."},
+{id:"smilekit",u:"sf",name:"Pim's Emergency Smile Kit",who:"Pim",
+ q:"EMERGENCY! Someone isn't smiling! Quick, deploy the cottage cheese and pineapple!!",
+ items:[["cottage",1],["pineapple",1],["ricecakes",1],["babybel",1],["milk",1]],prep:3,
+ steps:["Cottage cheese in a jar, pineapple chunks on top (classic combo).","Rice cakes to spread it on, or dunk them.","Babybel and a milk box for extra protein."],
+ tip:"Not a cottage cheese fan? Whipped cottage cheese is smooth like yogurt."},
+
+/* ============ DIMENSION C-137 (Rick and Morty) ============ */
+{id:"picklerick",u:"rm",name:"Pickle Rick Roll-Ups",who:"Rick",
+ q:"I turned myself into a pickle roll-up, Morty! BOOM! Big reveal! I'm a PICKLE ROLL-UP! What do you think about that?!",
+ items:[["turkey",1],["swiss",1],["pickle",1],["crackers",1],["yoranch",1],["carrots",1],["grapes",0.5]],prep:5,
+ steps:["Lay out turkey slices, add a strip of swiss, then roll each around a pickle spear.","Pat pickles dry first with a paper towel so the roll-ups stay put.","Slice into ‘Pickle Rick coins’ or leave them whole.","Carrots, Greek-yogurt ranch, crackers, grapes."],
+ tip:"Draw a Pickle Rick face on the lunch napkin for maximum reveal energy."},
+{id:"szechuan",u:"rm",name:"Rick's Szechuan Sauce Quest Bowl",who:"Rick",
+ q:"I'm not driven by avenging my dead family, Morty. That was FAKE. I-I'm driven by finding that SAUCE! ...this one's sesame-ginger. It'll do.",
+ items:[["rice",1],["chicken",1],["teriyaki",1],["broccoli",1],["edamame",0.5],["clementines",1]],prep:10,
+ steps:["Chicken bites tossed in sesame-ginger or teriyaki sauce, over rice made that morning.","Raw broccoli florets and edamame on the side.","Extra sauce packet for dunking. Nine seasons in the making."],
+ tip:"Microwavable rice pouches are fully cooked and fine at room temp. Squish and pour, no heat needed."},
+{id:"meeseeks",u:"rm",name:"Mr. Meeseeks's Look-At-Me Lunch",who:"Mr. Meeseeks",
+ q:"I'm Mr. Meeseeks! Look at me! My purpose is to deliver 29 grams of protein! Once lunch is eaten, I can stop existing! Ooh, yeah! CAAAN DO!",
+ items:[["chxsalad",1],["bluechips",1],["berries",1],["string",1],["snappeas",1]],prep:5,
+ steps:["Everything blue that can be: blue corn chips, blueberries, a blue container.","Chicken salad for scooping onto the chips.","String cheese and snap peas.","Existence is pain. Soggy chips are worse, so pack them separately."],
+ tip:"Blue corn chips have a bit more protein and fiber than regular yellow ones."},
+{id:"plumbus",u:"rm",name:"The Plumbus Pocket",who:"Interdimensional Cable",
+ q:"First they take the dinglebop, and they smooth it out with a bunch of schleem. The schleem is then repurposed for later batches...",
+ items:[["pita",1],["hummus",1],["chicken",0.67],["feta",0.5],["cucumber",1],["pepper",1],["grapes",0.5]],prep:10,
+ steps:["Take the dinglebop (pita) and smooth it out with a bunch of schleem (hummus).","Push the grumbo (chicken) through the fleeb (pepper strips) and add the chumbles (feta).","Cucumber ploobis on the side. The fleeb is rubbed.","Everyone has one. Every kid should."],
+ tip:"Real talk: pack the pita and fillings separately and assemble at lunch so it doesn't get soggy."},
+{id:"squanchy",u:"rm",name:"Squanchy's Squanch Wrap",who:"Squanchy",
+ q:"I'm gonna get SQUANCHED! ...on this wrap. It's a squanchin' good wrap.",
+ items:[["tortilla",1],["turkey",1],["cheddar",0.5],["lettuce",0.5],["yoranch",1],["apple",1]],prep:5,
+ steps:["Spread Greek-yogurt ranch on a tortilla. Add turkey, shredded cheddar, and lettuce.","Roll tight, wrap in foil, cut in half.","Apple slices (lemon water keeps them from browning)."],
+ tip:"A turkey-ranch wrap is a dependable, kid-approved, high-protein lunch."},
+{id:"birdperson",u:"rm",name:"Birdperson's Seed & Berry Ritual",who:"Birdperson",
+ q:"In bird culture, this is considered a highly respectable lunch.",
+ items:[["cottage",1],["pepitas",1],["strawberries",1],["egg",2],["crackers",1]],prep:5,
+ steps:["Cottage cheese topped with pumpkin seeds and sliced strawberries.","Two hard-boiled eggs with a pinch of salt.","Crackers for scooping."],
+ tip:"Pumpkin seeds are nut-free, have 5g protein per 2 Tbsp, and are loaded with iron and zinc."},
+{id:"poopybutthole",u:"rm",name:"Mr. Poopybutthole's Ooo-wee Bento",who:"Mr. Poopybutthole",
+ q:"Ooo-wee! This lunch is a real treat, Rick! Ooo-wee!",
+ items:[["ham",0.67],["cheddar",0.5],["egg",1],["pretzels",1],["pineapple",1],["snappeas",1],["yoranch",1]],prep:5,
+ steps:["Ham and cheddar cubes on toothpicks. The little top hat is optional but encouraged.","Hard-boiled egg, pretzels, pineapple.","Snap peas with Greek-yogurt ranch."],
+ tip:"Toothpick food is somehow 40% more fun to eat. That's science."},
+{id:"portalfluid",u:"rm",name:"Portal Fluid Green Smoothie",who:"Rick",
+ q:"It's portal fluid, Morty! ...it's spinach. D-don't tell the kid it's spinach, Morty.",
+ items:[["kefir",1],["yogurt",0.5],["spinach",1],["mango",1],["banana",0.5],["jerky",1],["pretzels",1]],prep:5,
+ steps:["Night before: blend kefir, Greek yogurt, spinach, mango, and banana until neon green.","Freeze in a wide-mouth insulated bottle. It's slushy by lunch and doubles as an ice pack.","Jerky and pretzels for the salty side."],
+ tip:"Mango and banana completely hide the spinach taste. The color is the only giveaway."},
+{id:"cromulon",u:"rm",name:"SHOW ME WHAT YOU GOT Sushi Bowl",who:"Cromulon",
+ q:"SHOW ME WHAT YOU GOT! ...I LIKE WHAT YOU GOT. GOOD JOB!",
+ items:[["rice",1],["shrimp",0.67],["avocado",0.5],["cucumber",1],["seaweed",1],["teriyaki",1],["edamame",1]],prep:10,
+ steps:["Deconstructed sushi: rice (made that morning) with cooked shrimp, cucumber, and avocado.","Squeeze lemon on the avocado to stop browning.","Seaweed snack sheets to wrap bites like hand rolls.","Soy or teriyaki for dipping. Edamame on the side."],
+ tip:"No raw fish. Cooked shrimp, chicken, or canned salmon all work."},
+{id:"microverse",u:"rm",name:"Microverse Battery Bites",who:"Rick",
+ q:"There's a whole tiny civilization in there, Morty, and they're ALL making protein for your stomach! That's just science!",
+ items:[["minibagel",1],["meatballs",1],["mozz",1],["pepperoni",0.5],["marinara",0.5],["berries",1]],prep:5,
+ steps:["Everything mini: mini bagels, mini meatballs, mozzarella pearls, turkey pepperoni.","Kid builds mini pizza bagels with the marinara cup (cold pizza bagels = excellent).","Blueberries: tiny planets."],
+ tip:"Mini foods get eaten. That's a real thing with picky eaters."},
+{id:"antsinmyeyes",u:"rm",name:"Ants in My Eyes Johnson's Ants on a Log",who:"Ants in My Eyes Johnson",
+ q:"I'm Ants in My Eyes Johnson! Here at Ants in My Eyes Johnson's Lunches, everything's black! I can't see a thing! ...but I can FEEL 33 grams of protein!",
+ items:[["celery",1],["sunbutter",1],["raisins",1],["string",1],["turkey",0.67],["milk",1]],prep:5,
+ steps:["Fill celery sticks with SunButter and line up raisins (the ‘ants’).","Turkey roll-ups and a string cheese for the protein boost.","Milk box. Ants not included (they're in his eyes)."],
+ tip:"SunButter is nut-free and has the same protein as peanut butter."},
+{id:"jerry",u:"rm",name:"Jerry's “Hungry for Apples?” Box",who:"Jerry",
+ q:"Hungry for apples? ...HUNGRY. FOR. APPLES? It's genius, Rick!  — Rick: “It's a lunchbox, Jerry.”",
+ items:[["apple",1],["sunbutter",0.5],["cheddar",1],["ham",0.67],["whisps",1]],prep:5,
+ steps:["Slice an apple into rings and dunk in lemon water.","SunButter dip cup for the rings.","Cheddar slices and ham roll-ups. Apple + cheddar is an elite combo.","Parmesan crisps for crunch."],
+ tip:"Apple-slice ‘sandwiches’: SunButter between two apple rings. Kids love these."},
+{id:"wubba",u:"rm",name:"Wubba Lubba Grub Grub Taco Kit",who:"Birdperson",
+ q:"‘Wubba lubba dub dub’ means ‘I am in great pain.’ But ‘wubba lubba GRUB grub’ means ‘these tacos are excellent.’",
+ items:[["tortilla",1],["chicken",1],["cheddar",0.5],["lettuce",0.5],["salsa",1],["guac",0.5]],prep:5,
+ steps:["Cut a tortilla into two smaller rounds (or use two street-taco tortillas).","Shredded chicken tossed with a pinch of taco seasoning.","Cheddar, shredded lettuce, salsa, and a guac cup. Kid assembles at lunch."],
+ tip:"Cold chicken tacos are a sleeper hit, like a taco salad you hold."},
+{id:"megaseeds",u:"rm",name:"Rick's Mega Seeds Trail Box",who:"Rick",
+ q:"MEGA SEEDS, Morty! They make you smarter!  — Morty: “These are pumpkin seeds, Rick.”  — Rick: “DETAILS, Morty.”",
+ items:[["pepitas",1],["roastchick",1],["edamame",1],["jerky",1],["fdstraw",1],["cheddar",0.5]],prep:3,
+ steps:["Make your own trail mix: pumpkin seeds, crunchy roasted chickpeas, freeze-dried strawberries.","Edamame in its own cup. Jerky and cheddar cubes alongside.","All finger food, no utensils needed."],
+ tip:"A nut-free trail mix with 36g protein. Great for sports-practice days."},
+{id:"tinyrick",u:"rm",name:"TINY RICK! Mini Sandwich Stack",who:"Tiny Rick",
+ q:"TINY RIIICK! Look at these tiny sandwiches! Wubba lubba dub— I mean, TINY RIIIICK!!",
+ items:[["bread",1],["turkey",0.67],["cheddar",0.5],["egg",1],["cucumber",1],["yoranch",1],["strawberries",1]],prep:10,
+ steps:["Make a turkey and cheddar sandwich, cut off the crusts, and slice into 4 tiny squares.","Stack them in a tower with a toothpick guitar on top.","Hard-boiled egg, cucumbers with ranch, strawberries."],
+ tip:"Cut sandwiches into shapes or minis and they vanish. Whole sandwiches come home half-eaten."},
+{id:"morty",u:"rm",name:"Morty's “Aw Geez” Tuna Crackers",who:"Morty",
+ q:"Aw geez, Rick, I-I just want a normal lunch for once. ...oh wow, this is actually really good.",
+ items:[["tunasalad",1],["crackers",1],["snappeas",1],["grapes",0.5],["babybel",1]],prep:5,
+ steps:["Tuna pouch mixed with Greek yogurt, a little mustard, and diced pickle.","Crackers for DIY stacking. Snap peas, grapes, Babybel."],
+ tip:"A Greek-yogurt tuna salad has roughly double the protein of a mayo one."},
+{id:"unity",u:"rm",name:"Unity's Hive-Mind Hummus Box",who:"Unity",
+ q:"Unity is all of us. And all of us agree: this is an excellent vegetarian hummus box.",
+ items:[["hummus",1],["pita",0.5],["edamame",1],["feta",1],["egg",1],["cucumber",1],["tomatoes",1],["olives",1]],prep:5,
+ steps:["Mediterranean board: hummus, pita triangles, feta cubes, olives.","Edamame and a hard-boiled egg power up the protein.","Cucumber and tomatoes to dip."],
+ tip:"A vegetarian lunch that still clears 25g protein thanks to eggs, edamame, and feta."}
+];
+/*DATA-END*/
+
+/* ---------------- helpers ---------------- */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("lunchtale:"+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("lunchtale:"+k, JSON.stringify(v)); }catch(e){} }
+};
+const r1 = n => Math.round(n*10)/10;
+const UNI = {ut:"The Underground", sf:"Smiling Friends Inc.", rm:"Dimension C-137", me:"Your Timeline"};
+const UNI_SHORT = {ut:"♥ UNDERGROUND", sf:"😄 SMILING FRIENDS", rm:"🌀 C-137", me:"🧪 YOUR TIMELINE"};
+
+function macros(items){
+  const m = {cal:0,p:0,c:0,f:0,fb:0,tags:new Set(),cold:false};
+  items.forEach(([id,q]) => { const c = COMP[id]; if(!c) return;
+    m.cal+=c.cal*q; m.p+=c.p*q; m.c+=c.c*q; m.f+=c.f*q; m.fb+=c.fb*q; c.t.forEach(t=>m.tags.add(t)); if(c.cold) m.cold=true; });
+  const k = m.p*4 + m.c*4 + m.f*9 || 1;
+  m.pp = m.p*4/k*100; m.cp = m.c*4/k*100; m.fp = m.f*9/k*100;
+  m.density = m.cal ? m.p/m.cal*100 : 0;
+  return m;
+}
+function diet(m){
+  const t = m.tags;
+  return { nutfree:!t.has("nut"), veg:!(t.has("meat")||t.has("fish")||t.has("shellfish")), dairyfree:!t.has("dairy"), eggfree:!t.has("egg"), gf:!t.has("gluten") };
+}
+const heartSVG = (col="#ff1f3d") => {
+  const rows = [".XX.XX.","XXXXXXX","XXXXXXX",".XXXXX.","..XXX..","...X..."];
+  let r = ""; rows.forEach((row,y)=>[...row].forEach((ch,x)=>{ if(ch==="X") r+=`<rect x="${x}" y="${y}" width="1.02" height="1.02"/>`; }));
+  return `<svg viewBox="0 0 7 6" fill="${col}" shape-rendering="crispEdges">${r}</svg>`;
+};
+function donut(m, size=54){
+  const R=15.9155, segs=[[m.pp,"var(--pc)"],[m.cp,"var(--cc)"],[m.fp,"var(--fc)"]]; let off=25, s="";
+  segs.forEach(([v,col])=>{ s+=`<circle r="${R}" cx="21" cy="21" fill="none" stroke="${col}" stroke-width="7" stroke-dasharray="${v} ${100-v}" stroke-dashoffset="${off}"/>`; off-=v; });
+  return `<svg class="donut" viewBox="0 0 42 42" width="${size}" height="${size}" aria-label="Macro split">${s}</svg>`;
+}
+const mbar = m => `<div class="mbar" title="Protein ${Math.round(m.pp)}% · Carbs ${Math.round(m.cp)}% · Fat ${Math.round(m.fp)}% of calories"><i style="width:${m.pp}%;background:var(--pc)"></i><i style="width:${m.cp}%;background:var(--cc)"></i><i style="width:${m.fp}%;background:var(--fc)"></i></div>`;
+const plateOf = (items, n=5) => { const seen=new Set(); return items.map(([id])=>COMP[id]&&COMP[id].e).filter(e=>e&&!seen.has(e)&&seen.add(e)).slice(0,n).map(e=>`<span>${e}</span>`).join(""); };
+
+/* ---------------- state ---------------- */
+let favs = new Set(store.get("favs", []));
+let creations = store.get("creations", []);
+let plan = store.get("plan", [null,null,null,null,null]);
+let questDone = new Set(store.get("quest", []));
+let shopDone = new Set(store.get("shop", []));
+let sound = store.get("sound", true);
+let lab = store.get("lab", {});
+let labName = store.get("labName", "");
+const F = {q:"", u:"all", d:new Set(), minP:0, sort:"protein"};
+
+const allLunches = () => [...LUNCHES, ...creations];
+const byId = id => allLunches().find(l => l.id === id);
+LUNCHES.concat(creations).forEach(l => l.m = macros(l.items));
+
+/* ---------------- sound + typewriter ---------------- */
+let actx, gestured=false;
+addEventListener("pointerdown", ()=>{ gestured = true; }, {once:true});
+function blip(pitch=560){
+  if(!sound || !gestured) return;
+  try{ actx = actx || new (window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(), g=actx.createGain(); o.type="square"; o.frequency.value=pitch+Math.random()*50;
+    g.gain.value=0.02; o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime+0.03); }catch(e){}
+}
+function typewrite(el, text, speed=24, pitch){
+  const tok = {}; el._tok = tok; el._full = text; el.textContent = ""; let i = 0;
+  const step = () => { if(el._tok !== tok) return; i++; el.textContent = text.slice(0,i);
+    if(i%2===0 && text[i-1] !== " ") blip(pitch);
+    if(i < text.length){ const ch = text[i-1]; setTimeout(step, /[.,!?]/.test(ch) ? speed*6 : speed); } };
+  step();
+}
+function finishType(el){ if(el._full && el.textContent !== el._full){ el._tok = null; el.textContent = el._full; return true; } return false; }
+function toast(msg, ms=2600){ const t=$("#toast"); t.textContent=""; t.classList.add("on"); typewrite(t, msg, 18); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("on"), ms); }
+function floaty(x, y, ch="♥", n=6){ for(let i=0;i<n;i++){ const s=document.createElement("div"); s.className="floaty"; s.textContent=ch;
+  s.style.left=(x+(Math.random()*60-30))+"px"; s.style.top=(y+(Math.random()*20-10))+"px"; s.style.animationDelay=(i*60)+"ms"; document.body.appendChild(s); setTimeout(()=>s.remove(),1600); } }
+
+/* ---------------- hero ---------------- */
+const EXTRA_QUOTES = [
+  {who:"Sans", q:"no microwave? no problem. i'm a cold lunch kinda skeleton. heh."},
+  {who:"Rick", q:"Listen, Morty, a-a lunch with 30 grams of protein and fruit is basically science. *burp* Real science."},
+  {who:"Pim", q:"Did you know kids ages 9 to 13 need about 34 grams of protein a DAY? Most of these lunches cover most of that!"},
+  {who:"Narrator", q:"* Two ice packs. * An insulated bag. * You feel your lunch staying cold. It's filled with DETERMINATION."},
+  {who:"Allan", q:"Per the handbook: pack chips and crackers SEPARATELY from wet foods. Soggy crackers are a formal violation."},
+  {who:"Mr. Meeseeks", q:"Hey! Try the Week Planner and I'll plan five lunches for you! Then I can stop existing! Ooh yeah!"},
+  {who:"Temmie", q:"hOI!! tem say: fav a lunch wit da HEART!! and da lunchbox lab lets u MAKE ur OWN!!"}
+];
+let heroI = -1;
+function heroNext(){
+  const txt = $("#heroTxt"); if(finishType(txt)) return;
+  const pool = EXTRA_QUOTES.concat(LUNCHES.map(l=>({who:l.who,q:l.q})));
+  heroI = heroI < 0 ? 0 : (heroI < EXTRA_QUOTES.length-1 ? heroI+1 : Math.floor(Math.random()*pool.length));
+  const it = pool[heroI];
+  $("#heroFace").textContent = FACES[it.who] || "⭐"; $("#heroWho").textContent = "* " + it.who.toUpperCase();
+  typewrite(txt, it.q);
+}
+
+/* ---------------- library ---------------- */
+function filtered(){
+  const q = F.q.trim().toLowerCase();
+  let list = allLunches().filter(l => {
+    if(F.u !== "all" && l.u !== F.u) return false;
+    if(l.m.p < F.minP) return false;
+    const d = diet(l.m);
+    for(const k of F.d){
+      if(k==="fast"){ if(l.prep > 5) return false; }
+      else if(k==="fav"){ if(!favs.has(l.id)) return false; }
+      else if(!d[k]) return false;
+    }
+    if(q){
+      const hay = (l.name+" "+l.who+" "+l.q+" "+(UNI[l.u]||"")+" "+l.items.map(([id])=>COMP[id]?COMP[id].n:"").join(" ")).toLowerCase();
+      if(!q.split(/\s+/).every(w => hay.includes(w))) return false;
+    }
+    return true;
+  });
+  const s = {protein:(a,b)=>b.m.p-a.m.p, density:(a,b)=>b.m.density-a.m.density, fiber:(a,b)=>b.m.fb-a.m.fb, prep:(a,b)=>a.prep-b.prep||b.m.p-a.m.p, cal:(a,b)=>a.m.cal-b.m.cal, name:(a,b)=>a.name.localeCompare(b.name)}[F.sort];
+  return list.sort(s);
+}
+function tagsHTML(l){
+  const d = diet(l.m), out = [`⏱ ${l.prep} min`];
+  if(l.m.cold) out.push("🧊 ice pack");
+  if(d.nutfree) out.push("nut-free"); if(d.veg) out.push("🌱 veg"); if(d.gf) out.push("GF"); if(d.dairyfree) out.push("dairy-free");
+  if(l.m.fb >= 6) out.push("💪 fiber " + Math.round(l.m.fb) + "g");
+  return out.map(t=>`<span class="tag">${t}</span>`).join("");
+}
+function cardHTML(l){
+  const m = l.m, lv = Math.min(20, Math.max(1, Math.round(m.p/2)));
+  return `<article class="card u-${l.u}" data-id="${esc(l.id)}" tabindex="0">
+    <div class="top"><div class="plate">${plateOf(l.items)}</div>
+      <button class="fav ${favs.has(l.id)?"on":""}" data-fav="${esc(l.id)}" aria-label="Favorite">${heartSVG()}</button></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="badge">${UNI_SHORT[l.u]}</span><span class="lv">PROTEIN LV ${lv}</span></div>
+    <h3>${esc(l.name)}</h3>
+    <p class="quote">“${esc(l.q)}” — ${esc(l.who)}</p>
+    <div class="stats">
+      <div class="pbig"><b>${Math.round(m.p)}g</b><small>protein</small></div>
+      ${donut(m)}
+      <div class="mini"><span><b>${Math.round(m.cal)}</b> kcal</span><span><b>${Math.round(m.c)}g</b> carbs · <b>${Math.round(m.f)}g</b> fat</span><span><b>${Math.round(m.fb)}g</b> fiber</span></div>
+    </div>
+    ${mbar(m)}
+    <div class="tags">${tagsHTML(l)}</div>
+    <div class="acts">
+      <button class="act" data-view="${esc(l.id)}"><span>${l.u==="ut"?"* CHECK":"👀 View"}</span></button>
+      <button class="act" data-week="${esc(l.id)}"><span>${l.u==="ut"?"+ WEEK":"📅 + Week"}</span></button>
+      <button class="act" data-remix="${esc(l.id)}"><span>${l.u==="ut"?"REMIX":"🧪 Remix"}</span></button>
+    </div></article>`;
+}
+function renderLibrary(){
+  const list = filtered();
+  $("#count").textContent = `* ${list.length} LUNCH${list.length===1?"":"ES"} FOUND IN THE MULTIVERSE`;
+  $("#grid").innerHTML = list.length ? list.map(cardHTML).join("") :
+    `<div class="empty">* But nobody came.<br><br>No lunches match these filters. Loosen them up, or build one in the Lunchbox Lab!</div>`;
+}
+
+/* ---------------- modal ---------------- */
+let modalId = null;
+function openModal(id){
+  const l = byId(id); if(!l) return; modalId = id; const m = l.m, d = diet(m);
+  const amdr = [["Protein",m.pp,10,30,"var(--pc)"],["Carbs",m.cp,45,65,"var(--cc)"],["Fat",m.fp,25,35,"var(--fc)"]];
+  $("#sheet").innerHTML = `
+    <button class="x" data-close aria-label="Close">✕</button>
+    <div class="sheet-head u-${l.u}">
+      <div class="plate">${plateOf(l.items,7)}</div>
+      <span class="badge" style="display:inline-block;margin-top:6px;background:#000;color:#fff;border:2px solid #fff">${UNI[l.u]}</span>
+      <h2>${esc(l.name)}</h2>
+      <div class="tags" style="margin-top:8px">${tagsHTML(l)}</div>
+    </div>
+    <div class="sheet-body">
+      <div class="dialog" id="mDialog"><div class="face">${FACES[l.who]||"⭐"}</div><div style="flex:1;min-width:0"><div class="who">* ${esc(l.who.toUpperCase())}</div><div class="txt" id="mTxt"></div></div></div>
+      <div class="cols">
+        <div>
+          <p class="h4">★ WHAT'S IN THE BOX</p>
+          <ul class="itemlist">${l.items.map(([id,q])=>{ const c=COMP[id]; if(!c) return "";
+            return `<li><span class="ie">${c.e}</span><span><div class="in">${esc(c.n)}</div><div class="iu">${fmtQty(q,c.u)}${c.t.includes("nut")?" · ⚠ contains nuts":""}</div></span><span class="ip">${r1(c.p*q)}g P</span></li>`; }).join("")}</ul>
+        </div>
+        <div>
+          <p class="h4">★ STATS</p>
+          <div class="macro-table">
+            <div><b style="color:var(--pc)">${Math.round(m.p)}g</b><small>Protein</small></div>
+            <div><b>${Math.round(m.cal)}</b><small>kcal</small></div>
+            <div><b style="color:var(--cc)">${Math.round(m.c)}g</b><small>Carbs</small></div>
+            <div><b style="color:var(--fc)">${Math.round(m.f)}g</b><small>Fat</small></div>
+            <div><b style="color:var(--fib)">${Math.round(m.fb)}g</b><small>Fiber</small></div>
+          </div>
+          <p class="h4">★ % OF CALORIES vs KID RANGES (AGES 4–18)</p>
+          <div class="amdr">${amdr.map(([n,v,lo,hi,col])=>`
+            <div class="amdr-row"><span>${n}</span>
+              <div class="amdr-track"><div class="amdr-band" style="left:${lo}%;width:${hi-lo}%"></div><div class="amdr-fill" style="width:${Math.min(100,v)}%;background:${col};opacity:.85"></div></div>
+              <span>${Math.round(v)}%</span></div>`).join("")}</div>
+          <p class="note">Dashed band = recommended daily range. ${m.pp>30?"This lunch is protein-heavy on purpose. Balance the day with carb-rich snacks and dinner.":"Nicely balanced for a school day."} This lunch covers <b>${Math.round(m.p/34*100)}%</b> of the 34g/day protein RDA for ages 9–13.</p>
+        </div>
+      </div>
+      <div>
+        <p class="h4">★ HOW TO PACK IT</p>
+        <ol class="steps">${l.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
+      </div>
+      ${l.tip?`<div class="tipbox">💡 ${esc(l.tip)}</div>`:""}
+      ${m.cold?`<div class="tipbox" style="border-color:var(--rmblue);background:#3ec5ff14">🧊 Contains perishables. Pack in an insulated bag with <b>two cold sources</b> (ice packs, a frozen water bottle, or a frozen smoothie).</div>`:""}
+      ${!d.nutfree?`<div class="tipbox" style="border-color:var(--soul);background:#ff1f3d14">⚠ Contains nuts. Check your school's policy. Swap in SunButter or a nut-free pesto.</div>`:""}
+    </div>
+    <div class="fight">
+      <button data-week="${esc(l.id)}">PACK IT</button>
+      <button data-remix="${esc(l.id)}">REMIX</button>
+      <button data-fav="${esc(l.id)}">${favs.has(l.id)?"UN-FAV":"FAV ♥"}</button>
+      ${l.u==="me"?`<button data-del="${esc(l.id)}">DELETE</button>`:`<button data-close>MERCY</button>`}
+    </div>`;
+  $("#modal").classList.add("on"); document.body.style.overflow="hidden";
+  typewrite($("#mTxt"), l.q, 20);
+  $("#mDialog").onclick = () => finishType($("#mTxt"));
+}
+function closeModal(){ $("#modal").classList.remove("on"); document.body.style.overflow=""; modalId=null; }
+
+/* qty formatting */
+function parseUnit(u){ const m = u.match(/^(\d+\/\d+|\d+(?:\.\d+)?)\s*(.*)$/); if(!m) return [1,u];
+  const n = m[1].includes("/") ? m[1].split("/").reduce((a,b)=>a/b) : parseFloat(m[1]); return [n, m[2]]; }
+function nice(n){
+  const w = Math.floor(n+1e-9), fr = n - w, table = [[0,""],[.25,"¼"],[.33,"⅓"],[.5,"½"],[.67,"⅔"],[.75,"¾"],[1,""]];
+  let best = table[0]; table.forEach(t => { if(Math.abs(fr-t[0]) < Math.abs(fr-best[0])) best = t; });
+  const whole = best[0]===1 ? w+1 : w;
+  return (whole ? whole : (best[1] ? "" : "0")) + best[1];
+}
+function fmtQty(q, unit){ const [n, rest] = parseUnit(unit); return `${nice(n*q)} ${rest}`.trim(); }
+
+/* ---------------- LAB ---------------- */
+let labCat = "protein";
+const SLOT = {protein:"main", cheese:"main", carb:"carb", veg:"veg", fruit:"fruit", crunch:"extra", dip:"extra", drink:"drink"};
+const SLOT_LABEL = {main:"🍗 Main Protein", carb:"🍞 Grains", veg:"🥕 Veggies", fruit:"🍓 Fruit", extra:"🥨 Crunch & Dips", drink:"🥛 Drink"};
+function renderPalette(){
+  $("#catTabs").innerHTML = Object.entries(CATS).map(([k,v])=>`<button class="chip ${k===labCat?"on":""}" data-cat="${k}">${v.e} ${v.label}</button>`).join("");
+  $("#palette").innerHTML = Object.values(COMP).filter(c=>c.cat===labCat).map(c=>`
+    <button class="pal ${c.t.includes("nut")?"nut":""}" data-add="${c.id}" title="${esc(c.n)} (${esc(c.u)})">
+      <span class="pe">${c.e}</span><span class="pn">${esc(c.n)}</span><span class="pm">${esc(c.u)} · <b>${c.p}g P</b> · ${c.cal} kcal</span></button>`).join("");
+}
+function labItems(){ return Object.entries(lab).filter(([id,q])=>COMP[id] && q>0); }
+function renderBento(flash){
+  const items = labItems(), bySlot = {main:[],carb:[],veg:[],fruit:[],extra:[],drink:[]};
+  items.forEach(([id,q]) => bySlot[SLOT[COMP[id].cat]].push([id,q]));
+  $("#bento").innerHTML = Object.keys(bySlot).map(slot => {
+    const arr = bySlot[slot], p = arr.reduce((s,[id,q])=>s+COMP[id].p*q,0);
+    return `<div class="comp ${flash===slot?"hot":""}" data-slot="${slot}"><h5><span>${SLOT_LABEL[slot]}</span><span>${arr.length?Math.round(p)+"g P":""}</span></h5>
+      ${arr.length ? arr.map(([id,q])=>{ const c=COMP[id]; return `<div class="bi"><span class="be">${c.e}</span><span class="bn">${esc(c.n)}<span class="bq">${fmtQty(q,c.u)}</span></span>
+        <span class="qty"><button data-dec="${id}" aria-label="Less">−</button><button data-inc="${id}" aria-label="More">+</button></span></div>`; }).join("")
+        : `<div class="hint">tap ${slot==="main"?"Protein or Dairy":slot==="extra"?"Crunch or Dips":CATS[Object.keys(SLOT).find(k=>SLOT[k]===slot)].label} to add</div>`}</div>`;
+  }).join("");
+  $("#labName").value = labName;
+  renderHUD();
+}
+let proteinTarget = store.get("ptarget", 25);
+function verdict(m, items){
+  const cats = new Set(items.map(([id])=>COMP[id].cat));
+  const produce = cats.has("veg") || cats.has("fruit");
+  if(!items.length) return ["Flowey","Howdy! Your lunchbox is EMPTY. In this world, it's EAT or be EATEN! ...so put some food in there, idiot. 🌼"];
+  if(m.p < 12) return ["Morty","Aw geez, that's kinda low on protein. M-maybe add chicken, turkey, eggs, or Greek yogurt?"];
+  if(!produce) return ["Allan","Per section 4, subsection B of the handbook: every lunch requires at least one fruit or vegetable. Please comply."];
+  if(m.cal > 850) return ["The Boss","That's a LOT of food for one lunch period. Unless there's practice after school, maybe trim a side."];
+  if(m.p > 48) return ["Rick","Whoa, whoa, "+Math.round(m.p)+" grams? Dial it back. It's a sixth-grader, not a Gromflomite bodybuilder. Spread that protein across the day."];
+  if(m.p < proteinTarget - 0.5) return ["Pim","Great start!! You're "+Math.round(proteinTarget-m.p)+"g away from your protein goal. A string cheese or egg would do it!"];
+  if(m.fb < 4) return ["Glep","Glep glorp! (Protein's great! Add a fiber buddy like berries, veggies, beans, or whole grains.)"];
+  const good = [["Sans","heh. "+Math.round(m.p)+"g of protein and fruit AND veggies? that lunch has a lotta backbone. ...get it?"],
+    ["Undyne","NGAAAH! "+Math.round(m.p)+"g of PROTEIN! THIS LUNCH COULD SUPLEX A BOULDER!"],
+    ["Mr. Meeseeks","Ooh, wee! A balanced lunch! My job here is done! *poof*"],
+    ["Temmie","hOI!! dis lunch is SO GUD!! tem is VIBRATING!!"],
+    ["Cromulon","SHOW ME WHAT YOU GOT! ...I LIKE WHAT YOU GOT. GOOD JOB!"]];
+  return good[Math.floor(m.p + m.fb) % good.length];
+}
+let lastVerdict = "";
+function renderHUD(){
+  const items = labItems(), m = macros(items), cats = new Set(items.map(([id])=>COMP[id].cat));
+  const bar = (lab_, val, max, target, unit) => `<div class="hp"><span>${lab_}</span><div class="hp-track"><div class="hp-fill" style="width:${Math.min(100,val/max*100)}%"></div>${target?`<div class="target-line" style="left:${Math.min(100,target/max*100)}%"></div>`:""}</div><span class="hp-val">${Math.round(val)}${unit} / ${target||max}${unit}</span></div>`;
+  const d = diet(m);
+  const checks = [
+    [m.p >= proteinTarget - 0.5, `Protein goal (${proteinTarget}g+)`],
+    [cats.has("veg") || cats.has("fruit"), "Has a fruit or veggie"],
+    [cats.has("veg") && cats.has("fruit"), "Has BOTH fruit and veggie (bonus!)"],
+    [m.fb >= 5, "5g+ fiber"],
+    [m.cal >= 350 && m.cal <= 750, "350–750 kcal (typical lunch)"],
+    [d.nutfree, "Nut-free"]
+  ];
+  const [who, text] = verdict(m, items);
+  $("#hud").innerHTML = `
+    <p class="h4">★ LUNCH STATS</p>
+    ${bar("PROT", m.p, 50, proteinTarget, "g")}
+    ${bar("KCAL", m.cal, 900, 600, "")}
+    ${bar("FIBR", m.fb, 12, 6, "g")}
+    <div>${mbar(m)}<div style="display:flex;justify-content:space-between;font-size:11px;margin-top:4px;color:#fffa"><span style="color:var(--pc)">P ${Math.round(m.pp)}%</span><span style="color:var(--cc)">C ${Math.round(m.cp)}%</span><span style="color:var(--fc)">F ${Math.round(m.fp)}%</span></div></div>
+    <div class="checks">${checks.map(([ok,t])=>`<div class="${ok?"ok":"no"}">${ok?"♥":"✗"} ${t}</div>`).join("")}
+      ${m.cold?`<div style="color:var(--rmblue)">🧊 Needs ice packs (perishables inside)</div>`:items.length?`<div style="color:var(--rmblue)">😎 Shelf-stable: no ice pack needed</div>`:""}</div>
+    <div class="verdict"><div class="dialog"><div class="face">${FACES[who]||"⭐"}</div><div style="flex:1;min-width:0"><div class="who">* ${who.toUpperCase()}</div><div class="txt" id="vTxt"></div></div></div></div>`;
+  const key = who+text;
+  if(key !== lastVerdict){ lastVerdict = key; typewrite($("#vTxt"), text, 16, 700); } else { $("#vTxt").textContent = text; }
+  renderBreakdown(items, m);
+  updateDial();
+}
+function renderBreakdown(items, m){
+  if(!items.length){ $("#breakdown").innerHTML = `<p class="note">* The box is empty. Add parts and every calorie and gram is tallied here.</p>`; return; }
+  const rows = items.slice().sort((a,b)=>COMP[b[0]].p*b[1]-COMP[a[0]].p*a[1]);
+  $("#breakdown").innerHTML = `<table class="bd"><thead><tr><th>Part</th><th>Protein</th><th>kcal</th><th>Carbs</th><th>Fat</th><th class="hide-sm">Fiber</th></tr></thead><tbody>
+    ${rows.map(([id,q])=>{ const c=COMP[id], p=c.p*q, share = m.p ? p/m.p*100 : 0;
+      return `<tr><td>${c.e} ${esc(c.n)} <span style="color:var(--muted)">· ${fmtQty(q,c.u)}</span></td>
+      <td class="pcol">${r1(p)}g<span class="share" style="width:${Math.round(share*0.4)}px" title="${Math.round(share)}% of protein"></span></td>
+      <td>${Math.round(c.cal*q)}</td><td>${r1(c.c*q)}g</td><td>${r1(c.f*q)}g</td><td class="hide-sm">${r1(c.fb*q)}g</td></tr>`; }).join("")}
+    </tbody><tfoot><tr><td>TOTAL</td><td class="pcol">${r1(m.p)}g</td><td>${Math.round(m.cal)}</td><td>${r1(m.c)}g</td><td>${r1(m.f)}g</td><td class="hide-sm">${r1(m.fb)}g</td></tr></tfoot></table>
+    <p class="note">${Math.round(m.pp)}% of calories from protein · ${r1(m.density)}g protein per 100 kcal · covers ${Math.round(m.p/34*100)}% of the 34g/day RDA for ages 9–13.</p>`;
+}
+
+/* ---------------- PROTEIN AGGRESSION DIAL ---------------- */
+const DMIN = 12, DMAX = 45, SWEEP = 135;
+const AGGRO = [
+  {max:17, name:"CHILL",       col:"#7fd1ff", who:"Napstablook", line:"oh... just a little protein... that's okay too... no pressure..."},
+  {max:23, name:"BALANCED",    col:"#7be07b", who:"Pim",         line:"A nice, balanced lunch! Everybody smiles! 😄"},
+  {max:29, name:"STRONG",      col:"#ffe14d", who:"Papyrus",     line:"NYEH HEH HEH! A LUNCH WORTHY OF THE ROYAL GUARD!"},
+  {max:36, name:"BEAST MODE",  col:"#ff9a1f", who:"Undyne",      line:"NGAAAH! MAXIMUM MUSCLE! SUPLEX THE SCHOOL BUS!"},
+  {max:45, name:"GROMFLOMITE", col:"#ff1f3d", who:"Rick",        line:"It's a sixth-grader, Morty, not a bodybuilder. Good for sports days. Otherwise, *burp*, dial it back."}
+];
+const PRESETS = [["CHILL",15],["BAL",20],["STRONG",25],["BEAST",32],["MAX",40]];
+let autoTune = store.get("autotune", true);
+const zoneOf = v => AGGRO.find(z => v <= z.max) || AGGRO[AGGRO.length-1];
+const polar = (r, deg) => [100 + r*Math.sin(deg*Math.PI/180), 100 - r*Math.cos(deg*Math.PI/180)];
+function arc(r, a0, a1){ const [x0,y0]=polar(r,a0), [x1,y1]=polar(r,a1); return `M${x0.toFixed(2)} ${y0.toFixed(2)} A${r} ${r} 0 ${a1-a0>180?1:0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`; }
+const v2a = v => -SWEEP + (v-DMIN)/(DMAX-DMIN)*SWEEP*2;
+function buildDial(){
+  let zones = "", lo = DMIN, ticks = "";
+  AGGRO.forEach(z => { zones += `<path d="${arc(84, v2a(lo), v2a(z.max))}" stroke="${z.col}" stroke-width="6" fill="none" opacity=".35"/>`; lo = z.max; });
+  for(let v=15; v<=45; v+=5){ const a=v2a(v), [x0,y0]=polar(72,a), [x1,y1]=polar(64,a), [tx,ty]=polar(52,a);
+    ticks += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="#fff8" stroke-width="2"/><text x="${tx}" y="${ty+3}" fill="#fff8" font-size="8" text-anchor="middle" font-family="Press Start 2P, monospace">${v}</text>`; }
+  $("#dialBox").innerHTML = `
+    <p class="h4" style="margin:0 0 4px">★ PROTEIN AGGRESSION DIAL</p>
+    <svg class="dial" id="dial" viewBox="0 10 200 175" role="slider" tabindex="0" aria-label="Protein target in grams" aria-valuemin="${DMIN}" aria-valuemax="${DMAX}">
+      ${zones}
+      <path d="${arc(84,-SWEEP,SWEEP)}" stroke="#ffffff14" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <path id="dialFill" stroke-width="14" fill="none" stroke-linecap="round"/>
+      ${ticks}
+      <g class="knob" id="knob"><circle cx="100" cy="100" r="34" fill="#111" stroke="#fff" stroke-width="3"/>
+        <rect x="97" y="68" width="6" height="16" rx="2" id="knobPtr"/></g>
+      <text id="dialVal" x="100" y="106" fill="#fff" font-size="15" text-anchor="middle" font-family="Press Start 2P, monospace"></text>
+      <text x="100" y="170" fill="#fff8" font-size="7" text-anchor="middle" font-family="Press Start 2P, monospace">GRAMS / LUNCH</text>
+    </svg>
+    <div class="zone" id="zoneName"></div>
+    <p class="zone-line" id="zoneLine"></p>
+    <div class="presets">${PRESETS.map(([n,v])=>`<button data-preset="${v}">${n} ${v}g</button>`).join("")}</div>
+    <label class="toggle"><input type="checkbox" id="autoTune" ${autoTune?"checked":""}> Auto-portion the protein parts</label>
+    <button class="big-btn gold" id="tuneNow" style="width:100%">⚡ Hit the target now</button>`;
+  const dial = $("#dial");
+  const fromPointer = e => { const r = dial.getBoundingClientRect(), vb = dial.viewBox.baseVal;
+    const x = (e.clientX - r.left)/r.width*vb.width + vb.x, y = (e.clientY - r.top)/r.height*vb.height + vb.y;
+    let a = Math.atan2(x-100, -(y-100))*180/Math.PI; a = Math.max(-SWEEP, Math.min(SWEEP, a));
+    setTarget(Math.round(DMIN + (a+SWEEP)/(SWEEP*2)*(DMAX-DMIN))); };
+  dial.addEventListener("pointerdown", e => { dial.setPointerCapture(e.pointerId); gestured = true; fromPointer(e); });
+  dial.addEventListener("pointermove", e => { if(dial.hasPointerCapture(e.pointerId)) fromPointer(e); });
+  dial.addEventListener("wheel", e => { e.preventDefault(); setTarget(proteinTarget + (e.deltaY < 0 ? 1 : -1)); }, {passive:false});
+  dial.addEventListener("keydown", e => { const d = {ArrowUp:1,ArrowRight:1,ArrowDown:-1,ArrowLeft:-1,PageUp:5,PageDown:-5}[e.key];
+    if(d){ e.preventDefault(); setTarget(proteinTarget + d); } });
+  $("#dialBox").addEventListener("click", e => { const p = e.target.closest("[data-preset]"); if(p) setTarget(+p.dataset.preset); });
+  $("#autoTune").onchange = e => { autoTune = e.target.checked; store.set("autotune", autoTune); if(autoTune) tuneProtein(true); };
+  $("#tuneNow").onclick = () => tuneProtein(false);
+  updateDial();
+}
+function updateDial(){
+  if(!$("#dial")) return;
+  const v = proteinTarget, a = v2a(v), z = zoneOf(v);
+  $("#dialFill").setAttribute("d", arc(84, -SWEEP, Math.max(-SWEEP+0.5, a)));
+  $("#dialFill").setAttribute("stroke", z.col);
+  $("#knob").style.transform = `rotate(${a}deg)`; $("#knob").style.transformOrigin = "100px 100px";
+  $("#knobPtr").setAttribute("fill", z.col);
+  $("#dialVal").textContent = v + "g";
+  $("#dial").setAttribute("aria-valuenow", v); $("#dial").setAttribute("aria-valuetext", `${v} grams, ${z.name}`);
+  const zn = $("#zoneName"); zn.textContent = `${FACES[z.who]} ${z.name}`; zn.style.color = z.col;
+  if($("#zoneLine")._zone !== z.name){ $("#zoneLine")._zone = z.name; $("#zoneLine").textContent = `${z.who}: “${z.line}”`; }
+  $$("#dialBox [data-preset]").forEach(b => b.classList.toggle("on", +b.dataset.preset === v));
+}
+let tuneTimer;
+function setTarget(v){
+  v = Math.max(DMIN, Math.min(DMAX, Math.round(v))); if(v === proteinTarget) return;
+  const before = zoneOf(proteinTarget).name;
+  proteinTarget = v; store.set("ptarget", v); blip(300 + v*14);
+  if(zoneOf(v).name !== before) floaty(innerWidth - 160, 260, FACES[zoneOf(v).who], 3);
+  if(autoTune && labItems().length){ clearTimeout(tuneTimer); updateDial(); tuneTimer = setTimeout(()=>tuneProtein(true), 90); }
+  else renderHUD();
+}
+// Scale the protein and dairy parts so the whole box lands on the target.
+// Grains, veggies, fruit, and the rest stay as-is, and their protein counts toward the total.
+function tuneProtein(quiet){
+  let items = labItems();
+  if(!items.length){ if(!quiet) toast("* Add some parts first. Then the dial can resize them."); return; }
+  const isMain = id => ["protein","cheese"].includes(COMP[id].cat);
+  if(!items.some(([id]) => isMain(id))){ lab.chicken = 1; items = labItems(); if(!quiet) toast("* No protein part found, so the dial added chicken."); }
+  const baseP = items.filter(([id])=>!isMain(id)).reduce((s,[id,q])=>s+COMP[id].p*q, 0);
+  const mainP = items.filter(([id])=>isMain(id)).reduce((s,[id,q])=>s+COMP[id].p*q, 0);
+  const factor = Math.max(0.1, proteinTarget - baseP) / mainP;
+  const mains = items.filter(([id])=>isMain(id)).map(([id])=>id);
+  mains.forEach(id => { lab[id] = Math.max(0.25, Math.min(4, Math.round(lab[id]*factor*4)/4)); });
+  // Quarter-portion rounding is coarse (¼ chicken = 6.5g), so nudge parts ±¼ while it gets closer.
+  // Landing a bit under the target costs more than landing a bit over.
+  const cost = () => { const d = macros(labItems()).p - proteinTarget; return d < 0 ? -d*1.5 : d; };
+  for(let i=0; i<24; i++){
+    let best = null, bestCost = cost();
+    mains.forEach(id => [0.25,-0.25].forEach(step => {
+      const q = lab[id] + step; if(q < 0.25 || q > 4) return;
+      lab[id] = q; const c = cost(); lab[id] -= step;
+      if(c < bestCost - 0.01){ bestCost = c; best = [id, step]; }
+    }));
+    if(!best) break; lab[best[0]] += best[1];
+  }
+  saveLab(); renderBento("main");
+  if(!quiet){ const p = macros(labItems()).p;
+    toast(Math.abs(p - proteinTarget) <= 2 ? `* Portions resized. ${Math.round(p)}g protein. Right on target.` : `* Got as close as portion sizes allow: ${Math.round(p)}g. Add or remove a protein part to get closer.`); }
+}
+function saveLab(){ store.set("lab", lab); store.set("labName", labName); }
+function addToLab(id, amt=1){
+  lab[id] = Math.max(0, r1((lab[id]||0) + amt)); if(!lab[id]) delete lab[id];
+  saveLab(); renderBento(SLOT[COMP[id].cat]);
+}
+const NAME_A = ["Determined","Schwifty","Smiling","Interdimensional","Tiny","Fabulous","Sneaky","Mega","Frowning","Glorpy","Ultra","Snowdin"];
+const NAME_B = ["Sans","Pim","Rick","Temmie","Charlie","Meeseeks","Papyrus","Glep","Morty","Undyne","Allan","Squanchy"];
+const NAME_C = ["Power Box","Protein Portal","Snack Dimension","Bento Quest","Crunch Crate","Lunch Protocol","Fuel Pod","Munch Module"];
+const pick = a => a[Math.floor(Math.random()*a.length)];
+function randomName(){ return `${pick(NAME_A)} ${pick(NAME_B)}'s ${pick(NAME_C)}`; }
+function mutate(){
+  const nutOK = c => !c.t.includes("nut");
+  const from = cat => pick(Object.values(COMP).filter(c=>c.cat===cat && nutOK(c) && c.id!=="water"));
+  lab = {};
+  const p = from("protein"); lab[p.id] = 1;
+  if(Math.random() < .7){ lab[from("cheese").id] = 1; }
+  lab[from("carb").id] = 1; lab[from("veg").id] = 1; lab[from("fruit").id] = 1;
+  if(Math.random() < .5) lab[from("dip").id] = 1;
+  if(Math.random() < .5) lab[pick(["milk","fairlife","kefir","water"])] = 1;
+  let m = macros(labItems()), guard = 0;
+  while(m.p < proteinTarget - 4 && guard++ < 6){ const extra = pick(["egg","string","turkey","edamame","chicken","babybel"]); lab[extra] = (lab[extra]||0) + 1; m = macros(labItems()); }
+  labName = randomName(); saveLab(); renderBento();
+  if(autoTune) tuneProtein(true);
+  toast("* Rick's Mutator whirs. A new lunch crawls out of the portal. *burp*");
+}
+function loadIntoLab(id){
+  const l = byId(id); if(!l) return; lab = {}; l.items.forEach(([i,q]) => lab[i] = q);
+  labName = l.name + " (Remix)"; saveLab(); closeModal(); showTab("lab"); renderBento();
+  toast("* You remixed " + l.name + ". It's full of possibilities.");
+}
+function saveCreation(){
+  const items = labItems(); if(!items.length){ toast("* The box is empty. You feel like you're forgetting something... (food)."); return null; }
+  const name = (labName || randomName()).slice(0,60), m = macros(items), [who, text] = verdict(m, items);
+  const c = {id:"me-"+Date.now().toString(36), u:"me", name, who:"You", q:`${who} says: ${text}`, items: items.map(([i,q])=>[i,q]), prep:10,
+    steps:["Pack each compartment as shown in the ingredient list.","Keep dips, dressings, and crunchy stuff in separate cups so nothing gets soggy.", m.cold ? "Contains perishables: add two ice packs or a frozen water bottle." : "Shelf-stable. No ice pack required, but a cold drink is always nice."],
+    tip:"Custom creation from the Lunchbox Lab."};
+  c.m = m; creations.push(c); store.set("creations", creations.map(({m,...rest})=>rest));
+  renderLibrary(); updatePills(); return c;
+}
+
+/* ---------------- WEEK ---------------- */
+const DAYS = [["MON","Gazorpazorpfield hates Mondays. Pack a good one."],["TUE","Taco-ish Tuesday energy."],["WED","Wubba Lubba Wednesday."],["THU","Temmie Thursday (hOI!)."],["FRI","Smile Check Friday! 😄"]];
+function addToWeek(id){
+  const i = plan.indexOf(null);
+  if(i < 0){ toast("* Your week is full! Clear a day in the Week Planner first."); return; }
+  plan[i] = id; store.set("plan", plan); renderWeek();
+  toast(`* ${byId(id).name} added to ${DAYS[i][0]}. You feel prepared.`);
+}
+function renderWeek(){
+  const opts = allLunches().slice().sort((a,b)=>a.name.localeCompare(b.name)).map(l=>`<option value="${esc(l.id)}">${esc(l.name)} (${Math.round(l.m.p)}g)</option>`).join("");
+  $("#week").innerHTML = DAYS.map(([d,s],i)=>{ const l = plan[i] && byId(plan[i]);
+    if(plan[i] && !l) plan[i] = null;
+    return `<div class="day ${l?"filled":""}"><div class="dn">${d}</div><div class="ds">${s}</div>
+      ${l ? `<div class="dl" data-view="${esc(l.id)}"><div class="plate">${plateOf(l.items,4)}</div><b>${esc(l.name)}</b><small>${Math.round(l.m.p)}g protein · ${Math.round(l.m.cal)} kcal · ${UNI[l.u]}</small></div>
+        <div class="dacts"><button data-reroll="${i}" title="Random swap">🎲</button><button data-clear="${i}" title="Clear">✕</button></div>`
+      : `<div class="dl" style="justify-content:center;align-items:center;opacity:.5;font-size:40px">🍱</div><select data-set="${i}" aria-label="Pick lunch for ${d}"><option value="">+ Pick a lunch…</option>${opts}</select>`}
+    </div>`; }).join("");
+  const chosen = plan.filter(Boolean).map(byId).filter(Boolean);
+  const tot = chosen.reduce((a,l)=>({p:a.p+l.m.p,cal:a.cal+l.m.cal,fb:a.fb+l.m.fb}),{p:0,cal:0,fb:0});
+  const n = chosen.length || 1, unis = new Set(chosen.map(l=>l.u));
+  $("#weekStats").innerHTML = `
+    <div class="stat"><b>${chosen.length}/5</b><small>days planned</small></div>
+    <div class="stat"><b style="color:var(--pc)">${chosen.length?Math.round(tot.p/n):0}g</b><small>avg protein / lunch</small></div>
+    <div class="stat"><b>${chosen.length?Math.round(tot.cal/n):0}</b><small>avg kcal / lunch</small></div>
+    <div class="stat"><b style="color:var(--fib)">${chosen.length?Math.round(tot.fb/n):0}g</b><small>avg fiber / lunch</small></div>
+    <div class="stat"><b>${unis.size}</b><small>universes visited</small></div>`;
+  renderShop(chosen); renderQuest(chosen);
+}
+function aggregate(chosen){
+  const agg = {}; chosen.forEach(l => l.items.forEach(([id,q]) => { agg[id] = (agg[id]||0) + q; }));
+  return agg;
+}
+function renderShop(chosen){
+  const agg = aggregate(chosen), groups = {};
+  Object.entries(agg).forEach(([id,q]) => { const c = COMP[id]; (groups[c.cat] = groups[c.cat] || []).push([c,q]); });
+  if(!chosen.length){ $("#shop").innerHTML = `<p class="note">Plan at least one day to generate a list.</p>`; return; }
+  $("#shop").innerHTML = Object.keys(CATS).filter(k=>groups[k]).map(k=>`<div class="shop-group"><h4>${CATS[k].e} ${CATS[k].label}</h4>
+    ${groups[k].map(([c,q])=>`<label class="check ${shopDone.has(c.id)?"done":""}"><input type="checkbox" data-shop="${c.id}" ${shopDone.has(c.id)?"checked":""}><span>${c.e} ${esc(c.n)} <span style="color:var(--muted)">(${fmtQty(q,c.u)})</span></span></label>`).join("")}</div>`).join("");
+}
+function shopText(){
+  const chosen = plan.filter(Boolean).map(byId).filter(Boolean), agg = aggregate(chosen);
+  let t = "LUNCHTALE SHOPPING LIST\n" + chosen.map((l,i)=>`${DAYS[plan.indexOf(l.id)]?.[0]||""}: ${l.name}`).join("\n") + "\n\n";
+  Object.keys(CATS).forEach(k => { const rows = Object.entries(agg).filter(([id])=>COMP[id].cat===k); if(!rows.length) return;
+    t += CATS[k].label.toUpperCase() + "\n" + rows.map(([id,q])=>`[ ] ${COMP[id].n} (${fmtQty(q,COMP[id].u)})`).join("\n") + "\n\n"; });
+  return t;
+}
+const QUESTS = [
+  {ids:["egg","eggsalad"], t: n => `🥚 Boil ${Math.ceil(n)} eggs (12 min, then ice bath). They keep 7 days in the fridge.`, count:(agg)=> (agg.egg||0) + (agg.eggsalad||0)*2},
+  {ids:["chicken","chxsalad"], t: () => "🍗 Bake or grab a rotisserie chicken. Slice and shred it into containers."},
+  {ids:["banza","soba","quinoa"], t: () => "🍝 Cook pasta, noodles, or quinoa. Rinse cold, toss with a little dressing or oil, and refrigerate."},
+  {ids:["carrots","cucumber","pepper","celery","broccoli","snappeas"], t: () => "🥕 Wash and cut the veggies. Store them in containers with a damp paper towel."},
+  {ids:["edamame","shrimp","meatballs"], t: () => "🧊 Move frozen edamame, shrimp, and meatballs to the fridge to thaw the night before."},
+  {ids:["chxsalad","tunasalad","eggsalad"], t: () => "🥣 Mix a batch of Greek-yogurt chicken, tuna, or egg salad (keeps 3–4 days)."},
+  {ids:["yoranch"], t: () => "🤍 Stir up Greek-yogurt ranch: 1 cup Greek yogurt + 1 Tbsp ranch seasoning."},
+  {ids:["kefir"], t: () => "🧃 Blend smoothies into bottles and freeze them the night before each smoothie day."},
+  {ids:["pretzels","crackers","chips","bluechips","pepitas","roastchick","popcorn","granola"], t: () => "🥨 Pre-portion crunchy snacks into reusable bags for the whole week."},
+  {ids:["apple"], t: () => "🍎 Buy lemons. Dunk apple slices in lemon water the morning of so they don't brown."},
+  {ids:[], always:true, t: () => "❄️ Freeze ice packs and a water bottle or two. You need 2 cold sources per bag."}
+];
+function renderQuest(chosen){
+  const agg = aggregate(chosen);
+  const qs = QUESTS.filter(q => q.always || q.ids.some(id => agg[id]));
+  if(!chosen.length){ $("#quest").innerHTML = `<p class="note">* The quest log is empty. Plan some lunches to unlock prep quests.</p>`; return; }
+  $("#quest").innerHTML = qs.map((q,i)=>{ const key = "q"+QUESTS.indexOf(q); const txt = q.count ? q.t(q.count(agg)) : q.t();
+    return `<label class="check ${questDone.has(key)?"done":""}"><input type="checkbox" data-quest="${key}" ${questDone.has(key)?"checked":""}><span>${txt}</span></label>`; }).join("")
+    + `<p class="note pixel" style="font-size:9px;line-height:1.8;margin-top:12px">${qs.every(q=>questDone.has("q"+QUESTS.indexOf(q)))?"* QUEST COMPLETE! You earned 0 EXP and a stress-free week.":"* Complete every quest for a stress-free week."}</p>`;
+}
+function autoWeek(){
+  const pool = filtered().filter(l=>l.u!=="me").length >= 5 ? filtered().filter(l=>l.u!=="me") : LUNCHES.slice();
+  const order = ["rm","ut","sf","rm","ut"], used = new Set(); plan = [];
+  for(let i=0;i<5;i++){
+    let cand = pool.filter(l=>!used.has(l.id) && l.u===order[i]); if(!cand.length) cand = pool.filter(l=>!used.has(l.id));
+    if(!cand.length) cand = LUNCHES.filter(l=>!used.has(l.id));
+    const l = pick(cand); used.add(l.id); plan.push(l.id);
+  }
+  store.set("plan", plan); renderWeek();
+  toast("* I'm Mr. Meeseeks! Your week is planned! (I followed your library filters.) *poof*");
+}
+
+/* ---------------- COLD SCIENCE ---------------- */
+const TIPS = [
+  {s:"ut", e:"🧊", h:"* THE TWO ICE PACK RULE", p:"Perishable food should stay at <b>40°F or below</b>. The USDA recommends an <b>insulated lunch bag with at least two cold sources</b>. Bacteria multiply fast between 40–140°F."},
+  {s:"rm", e:"💧", h:"Frozen Bottle Hack, Morty!", p:"Freeze a water bottle (leave room for expansion) or a smoothie. It's an ice pack by morning and <b>a cold drink by lunch</b>. Two jobs, one bottle."},
+  {s:"sf", e:"🫙", h:"Thermos Works COLD Too", p:"Fill an insulated food jar with <b>ice water for 5 minutes</b>, dump it, then add cold pasta salad or yogurt. It stays fridge-cold for hours."},
+  {s:"", e:"🌙", h:"Pack the Night Before", p:"Assemble everything the night before and keep the whole lunchbox <b>in the fridge</b>. Add ice packs in the morning. A pre-chilled box stays colder longer."},
+  {s:"ut", e:"🥨", h:"* NO SOGGY ZONE", p:"Crackers, chips, granola, and pretzels ALWAYS get their own bag or compartment. <b>Dressings and dips go in leak-proof cups.</b> Add wet ingredients at lunch."},
+  {s:"sf", e:"🥬", h:"The Lettuce Shield", p:"On sandwiches and wraps, put a <b>lettuce leaf or cheese slice against the bread</b> as a moisture barrier. Pack tomatoes and pickles separately."},
+  {s:"rm", e:"🍎", h:"Anti-Browning Science", p:"Dunk apple slices in <b>water with a squeeze of lemon</b> (or a pinch of salt, then rinse) for 5 minutes. They stay white until lunch. Science!"},
+  {s:"", e:"🍚", h:"Cold Carbs Done Right", p:"Cooked rice and pasta must be <b>cooled quickly and refrigerated</b>. Quinoa, chickpea pasta, and soba taste best cold. Fridge-cold rice goes hard, so make it that morning or use a pouch."},
+  {s:"sf", e:"🌻", h:"Nut-Free School?", p:"<b>SunButter</b> (sunflower seed butter) and <b>pumpkin seeds</b> are great swaps. Label SunButter so staff know it isn't peanut butter."},
+  {s:"ut", e:"🧒", h:"* LET THEM CHOOSE", p:"Kids eat more of what they <b>helped pick and pack</b>. Let them choose 3 lunches a week from this page and use Portal Roulette for the rest."},
+  {s:"rm", e:"✂️", h:"Shapes = Eaten", p:"Cut sandwiches into <b>minis, pinwheels, or cookie-cutter shapes</b> and use skewers and toothpicks. Novelty gets food eaten. It's the Microverse principle."},
+  {s:"", e:"⏱", h:"The 2-Hour Rule", p:"Perishables shouldn't sit <b>above 40°F for more than 2 hours</b>. If the lunch comes home uneaten and warm, toss the perishables."}
+];
+function renderTips(){
+  $("#tips").innerHTML = TIPS.map(t=>`<div class="tip ${t.s}"><div class="te">${t.e}</div><h3>${t.h}</h3><p>${t.p}</p></div>`).join("");
+  const avg = LUNCHES.reduce((s,l)=>s+l.m.p,0)/LUNCHES.length;
+  $("#macroExplainer").innerHTML = [
+    ["🥩","Protein","<b>34 g/day</b> is the RDA for ages 9–13. That's a minimum, and active kids often do well with more. Up to <b>30% of calories</b> from protein is within guidelines. A 20–30g lunch is a strong, safe target."],
+    ["🍞","Carbs","<b>45–65% of calories</b>. Brains and growing bodies run on carbs, so pick whole grains, fruit, and beans for fiber and steady energy through afternoon classes."],
+    ["🥑","Fat","<b>25–35% of calories</b>. Cheese, seeds, avocado, and eggs bring fats that help with fullness and absorbing vitamins A, D, E, and K."],
+    ["🌾","Fiber","Roughly <b>26–31 g/day</b> for this age (14 g per 1,000 kcal). Most kids get way less. Aim for 5g+ at lunch from fruit, veg, beans, and whole grains."],
+    ["🔥","Calories","Most 11-year-olds need about <b>1,600–2,200 kcal/day</b> depending on size and activity. That makes <b>400–650 kcal</b> a typical lunch."],
+    ["📊","This Library",`The average lunch here has <b>${Math.round(avg)}g protein</b>. Many run protein-forward on purpose, so round out the day with carb-rich snacks and a veggie-heavy dinner.`]
+  ].map(([e,h,p])=>`<div class="tip"><div class="te">${e}</div><h3>${h}</h3><p>${p}</p></div>`).join("");
+}
+
+/* ---------------- roulette ---------------- */
+function roulette(){
+  const pool = filtered().length ? filtered() : allLunches();
+  const el = $("#roulette"), nm = $("#rname"); el.classList.add("on");
+  const final = pick(pool); let t = 0, delay = 50;
+  const tick = () => {
+    const l = t < 22 ? pick(pool) : final; nm.textContent = l.name; blip(300 + t*20); t++;
+    if(t <= 22){ delay *= 1.12; setTimeout(tick, delay); }
+    else { setTimeout(()=>{ el.classList.remove("on"); openModal(final.id); floaty(innerWidth/2, innerHeight/2, "🌀", 8); }, 700); }
+  };
+  tick();
+}
+
+/* ---------------- tabs & events ---------------- */
+function showTab(name){
+  $$(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === name));
+  $$(".tabpane").forEach(p => p.classList.toggle("on", p.id === "tab-"+name));
+  store.set("tab", name);
+  if(name === "week") renderWeek();
+  if(name === "lab") renderBento();
+  const tabs = $(".tabs"); if(scrollY > tabs.offsetTop) scrollTo({top: tabs.offsetTop, behavior:"smooth"});
+}
+function toggleFav(id, el){
+  if(favs.has(id)) favs.delete(id); else { favs.add(id); if(el){ const r = el.getBoundingClientRect(); floaty(r.left+r.width/2, r.top, "♥", 5); } }
+  store.set("favs", [...favs]); renderLibrary(); if(modalId === id) openModal(id);
+}
+function updatePills(){
+  $("#pillCount").textContent = allLunches().length;
+  $("#pillAvg").textContent = Math.round(LUNCHES.reduce((s,l)=>s+l.m.p,0)/LUNCHES.length) + "g";
+}
+
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-fav],[data-view],[data-week],[data-remix],[data-close],[data-del],[data-add],[data-inc],[data-dec],[data-cat],[data-reroll],[data-clear],[data-u],[data-d],[data-tab]");
+  if(!t){ const card = e.target.closest(".card"); if(card) openModal(card.dataset.id); return; }
+  const ds = t.dataset;
+  if(ds.tab){ showTab(ds.tab); return; }
+  if(ds.fav){ e.stopPropagation(); toggleFav(ds.fav, t); return; }
+  if(ds.view){ openModal(ds.view); return; }
+  if(ds.week){ addToWeek(ds.week); return; }
+  if(ds.remix){ loadIntoLab(ds.remix); return; }
+  if(ds.close !== undefined){ closeModal(); return; }
+  if(ds.del){ creations = creations.filter(c=>c.id!==ds.del); store.set("creations", creations.map(({m,...r})=>r));
+    plan = plan.map(p=>p===ds.del?null:p); store.set("plan", plan); closeModal(); renderLibrary(); updatePills(); toast("* The creation faded back into the void."); return; }
+  if(ds.add){ addToLab(ds.add, 1); blip(800); return; }
+  if(ds.inc){ addToLab(ds.inc, 0.5); return; }
+  if(ds.dec){ addToLab(ds.dec, -0.5); return; }
+  if(ds.cat){ labCat = ds.cat; renderPalette(); return; }
+  if(ds.reroll !== undefined){ const i=+ds.reroll; const pool = allLunches().filter(l=>!plan.includes(l.id)); plan[i] = pick(pool).id; store.set("plan", plan); renderWeek(); return; }
+  if(ds.clear !== undefined){ plan[+ds.clear] = null; store.set("plan", plan); renderWeek(); return; }
+  if(ds.u){ F.u = ds.u; $$("#uniChips .chip").forEach(c=>c.classList.toggle("on", c===t)); renderLibrary(); return; }
+  if(ds.d){ F.d.has(ds.d) ? F.d.delete(ds.d) : F.d.add(ds.d); t.classList.toggle("on"); renderLibrary(); return; }
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && modalId) closeModal();
+  if(e.key === "Enter" && e.target.classList && e.target.classList.contains("card")) openModal(e.target.dataset.id);
+});
+$("#modal").addEventListener("click", e => { if(e.target.id === "modal") closeModal(); });
+document.addEventListener("change", e => {
+  const t = e.target;
+  if(t.dataset.set !== undefined && t.value){ plan[+t.dataset.set] = t.value; store.set("plan", plan); renderWeek(); }
+  if(t.dataset.shop){ t.checked ? shopDone.add(t.dataset.shop) : shopDone.delete(t.dataset.shop); store.set("shop",[...shopDone]); t.closest(".check").classList.toggle("done", t.checked); }
+  if(t.dataset.quest){ t.checked ? questDone.add(t.dataset.quest) : questDone.delete(t.dataset.quest); store.set("quest",[...questDone]); renderWeek(); if(t.checked) blip(900); }
+});
+$("#q").addEventListener("input", e => { F.q = e.target.value; renderLibrary(); });
+$("#sort").addEventListener("change", e => { F.sort = e.target.value; renderLibrary(); });
+$("#minP").addEventListener("input", e => { F.minP = +e.target.value; $("#minPv").textContent = F.minP + "g"; renderLibrary(); });
+$("#rouletteBtn").onclick = roulette;
+$("#heroPortal").onclick = roulette;
+$("#heroDialog").onclick = heroNext;
+$("#heroDialog").onkeydown = e => { if(e.key==="Enter"||e.key===" "){ e.preventDefault(); heroNext(); } };
+let soulClicks = 0;
+$("#soul").onclick = e => { e.stopPropagation(); soulClicks++; floaty(e.clientX, e.clientY, "♥", 4); blip(880);
+  if(soulClicks % 5 === 0) toast("* You are filled with DETERMINATION. (And a craving for a SAVE Point Snack Board.)"); };
+$("#smiley").onclick = e => { floaty(e.clientX, e.clientY, "😄", 6); toast("* Pim: “Smile check complete! Everyone here is smiling!”"); };
+$("#flask").onclick = e => { floaty(e.clientX, e.clientY, "🧪", 5); toast("* Rick: “Wubba lubba grub grub!” (That means ‘let's eat’.)"); };
+$("#soundBtn").onclick = () => { sound = !sound; store.set("sound", sound); $("#soundBtn").textContent = sound ? "🔊 blips" : "🔇 blips"; if(sound){ gestured = true; blip(); } };
+$("#labName").addEventListener("input", e => { labName = e.target.value; saveLab(); });
+$("#nameBtn").onclick = () => { labName = randomName(); $("#labName").value = labName; saveLab(); blip(700); };
+$("#saveLab").onclick = () => { const c = saveCreation(); if(c){ toast(`* You SAVED “${c.name}”. It now exists in Your Timeline.`); floaty(innerWidth/2, innerHeight-120, "⭐", 8); } };
+$("#labToWeek").onclick = () => { const c = saveCreation(); if(c) addToWeek(c.id); };
+$("#mutateLab").onclick = mutate;
+$("#clearLab").onclick = () => { lab = {}; labName = ""; saveLab(); renderBento(); };
+$("#autoWeek").onclick = autoWeek;
+$("#clearWeek").onclick = () => { plan = [null,null,null,null,null]; store.set("plan", plan); shopDone.clear(); store.set("shop", []); questDone.clear(); store.set("quest", []); renderWeek(); };
+$("#copyList").onclick = async () => { const txt = shopText();
+  try{ await navigator.clipboard.writeText(txt); toast("* Shopping list copied to clipboard! Paste it anywhere."); }
+  catch(e){ const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); toast("* Shopping list copied!"); }catch(_){ toast("* Couldn't copy. Try Print instead."); } ta.remove(); } };
+$("#printList").onclick = () => { $("#printArea").innerHTML = `<pre style="font-size:14px;white-space:pre-wrap">${esc(shopText())}</pre>`; document.body.classList.add("print-list"); window.print(); setTimeout(()=>document.body.classList.remove("print-list"), 500); };
+
+/* Konami → Annoying Dog */
+const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"]; let kpos = 0;
+document.addEventListener("keydown", e => {
+  kpos = (e.key === KONAMI[kpos] || e.key.toLowerCase() === KONAMI[kpos]) ? kpos+1 : (e.key === KONAMI[0] ? 1 : 0);
+  if(kpos === KONAMI.length){ kpos = 0; const d = $("#dog"); d.classList.remove("run"); void d.offsetWidth; d.classList.add("run");
+    toast("* The Annoying Dog runs off with a string cheese. * It was worth 7g of protein."); }
+});
+
+/* ---------------- init ---------------- */
+$("#soundBtn").textContent = sound ? "🔊 blips" : "🔇 blips";
+$("#soul").innerHTML = heartSVG();
+buildDial(); renderPalette(); renderLibrary(); renderTips(); updatePills();
+heroNext();
+const startTab = store.get("tab", "library"); if(["library","lab","week","cold"].includes(startTab) && startTab !== "library") showTab(startTab);
+</script>
+</body>
+</html>
