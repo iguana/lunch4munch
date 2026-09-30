@@ -304,6 +304,47 @@ ol.steps li::marker{color:var(--gold);font-weight:700}
 .bd .share{display:inline-block;height:6px;background:var(--pc);border-radius:3px;vertical-align:middle;margin-left:6px}
 @media (max-width:760px){.bd .hide-sm{display:none}}
 
+/* fusion chamber */
+.fz{background:radial-gradient(circle at 50% 0,#1f3b2a,#0f1119 70%);border:2px solid var(--portal)}
+.fz-row{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.fz-slot{background:#000;border:3px solid #fff;padding:10px;display:grid;gap:8px;justify-items:center;min-width:0}
+.fz-slot select{width:100%;min-width:0}
+.fz-emoji{font-size:44px;line-height:1.1;height:52px}
+.fz-q{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;text-align:center}
+.fz-q button{width:26px;height:26px;flex:none;border-radius:7px;border:2px solid #fff;background:#000;color:#fff;font-weight:700;padding:0}
+.fz-q button:hover{background:var(--portal);color:#000}
+.fz-mini{font-size:11px;color:var(--muted);text-align:center}
+.fz-plus{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-family:var(--pixel);font-size:18px;color:#000;
+  background:radial-gradient(circle,#e8ffb0,#97ce4c 45%,#3f8f1f 72%);box-shadow:0 0 18px #97ce4c}
+.fz-go{width:100%;margin-top:12px;font-family:var(--pixel);font-size:12px;padding:14px}
+.fz-go:disabled{opacity:.6;cursor:wait}
+.fz-row.fusing .fz-slot:first-child .fz-emoji{animation:fzL .9s ease-in forwards}
+.fz-row.fusing .fz-slot:last-child .fz-emoji{animation:fzR .9s ease-in forwards}
+.fz-row.fusing .fz-plus{animation:fzP .9s ease-in-out}
+@keyframes fzL{to{transform:translateX(170%) rotate(540deg) scale(.2);opacity:0}}
+@keyframes fzR{to{transform:translateX(-170%) rotate(-540deg) scale(.2);opacity:0}}
+@keyframes fzP{50%{transform:scale(2.3) rotate(180deg);box-shadow:0 0 90px #fff,0 0 30px #97ce4c}}
+.fz-result{margin-top:14px;background:#000;border:4px solid #fff;padding:14px;display:grid;gap:10px;animation:pop .4s}
+.fz-result.unstable{border-color:#ff8b8b}
+.fz-big{font-size:56px;text-align:center;letter-spacing:-14px;animation:wobble 3.2s ease-in-out infinite}
+.fz-head{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.fz-head h3{margin:0;font-family:var(--bang);font-weight:400;font-size:30px;letter-spacing:.03em;color:#d7ff9a;line-height:1.05;min-width:0;overflow-wrap:anywhere}
+.fz-warn{font-family:var(--pixel);font-size:9px;line-height:1.8;color:#ff8b8b}
+.fz-desc{margin:0;color:#fffd}
+.fz-goal{font-size:14px;padding:8px 10px;border-radius:10px;background:#ffffff10}
+.fz-goal.ok{color:var(--portal)} .fz-goal.no{color:#ffb3b3}
+.fz-acts{display:flex;flex-wrap:wrap;gap:8px}
+.fz-acts .big-btn{padding:8px 12px;font-size:14px}
+.small-btn{background:#000;border:2px solid #fff6;color:#fff;border-radius:8px;padding:5px 9px;font-size:12px}
+.small-btn:hover{border-color:var(--gold);color:var(--gold)}
+.qty button[data-fx]{border-color:var(--portal)}
+@media (max-width:760px){
+  .fz-row{grid-template-columns:1fr}
+  .fz-plus{margin:auto}
+  @keyframes fzL{to{transform:translateY(160%) rotate(540deg) scale(.2);opacity:0}}
+  @keyframes fzR{to{transform:translateY(-160%) rotate(-540deg) scale(.2);opacity:0}}
+}
+
 /* ---------- WEEK ---------- */
 .week{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .day{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:230px}
@@ -496,7 +537,7 @@ footer p{margin:4px 0}
     <div class="sec-head">
       <div>
         <h2>Lunchbox Lab 🧪</h2>
-        <p>Build a lunch from parts: tap ingredients to drop them in the box, and every macro is added up live. Turn the <b>Protein Aggression Dial</b> to set the goal, and switch on auto-portion to resize the protein parts to hit it.</p>
+        <p>Build a lunch from parts: tap ingredients to drop them in the box, and every macro is added up live. Turn the <b>Protein Aggression Dial</b> to set the goal, and switch on auto-portion to resize the protein parts to hit it. Tap 🧬 on any item to fuse it with another in the <b>Fusion Chamber</b>.</p>
       </div>
     </div>
     <div class="lab">
@@ -523,6 +564,7 @@ footer p{margin:4px 0}
           <p class="h4">★ MACRO BREAKDOWN, PART BY PART</p>
           <div id="breakdown"></div>
         </div>
+        <div class="panel fz" id="fusion" style="margin-top:16px"></div>
       </div>
       <div class="hud-col">
         <div class="hud dialbox" id="dialBox"></div>
@@ -1004,6 +1046,133 @@ function donut(m, size=54){
 const mbar = m => `<div class="mbar" title="Protein ${Math.round(m.pp)}% · Carbs ${Math.round(m.cp)}% · Fat ${Math.round(m.fp)}% of calories"><i style="width:${m.pp}%;background:var(--pc)"></i><i style="width:${m.cp}%;background:var(--cc)"></i><i style="width:${m.fp}%;background:var(--fc)"></i></div>`;
 const plateOf = (items, n=5) => { const seen=new Set(); return items.map(([id])=>COMP[id]&&COMP[id].e).filter(e=>e&&!seen.has(e)&&seen.add(e)).slice(0,n).map(e=>`<span>${e}</span>`).join(""); };
 
+/* ---------------- FUSION CORE ---------------- */
+// Short names used to build fusion names ("Turkey" + "Apple" -> "Turkapple Skewers").
+const SHORT = {turkey:"Turkey",chicken:"Chicken",ham:"Ham",roastbeef:"Beef",salami:"Salami",pepperoni:"Pepperoni",sausage:"Sausage",meatballs:"Meatball",jerky:"Jerky",shrimp:"Shrimp",tuna:"Tuna",salmon:"Salmon",egg:"Egg",eggsalad:"Egg Salad",chxsalad:"Chicken Salad",tunasalad:"Tuna Salad",tofu:"Tofu",edamame:"Edamame",blackbeans:"Bean",chickpeas:"Chickpea",
+  yogurt:"Yogurt",cottage:"Cottage",string:"String Cheese",cheddar:"Cheddar",swiss:"Swiss",babybel:"Babybel",mozz:"Mozzarella",feta:"Feta",
+  tortilla:"Tortilla",spinachtort:"Spinach Wrap",bread:"Bread",bagelthin:"Bagel",minibagel:"Bagel",pita:"Pita",rolls:"Slider",crackers:"Cracker",pretzels:"Pretzel",chips:"Chip",bluechips:"Blue Chip",banza:"Pasta",soba:"Noodle",rice:"Rice",quinoa:"Quinoa",waffle:"Waffle",ricecakes:"Rice Cake",granola:"Granola",popcorn:"Popcorn",
+  carrots:"Carrot",cucumber:"Cucumber",snappeas:"Snap Pea",tomatoes:"Tomato",pepper:"Pepper",broccoli:"Broccoli",celery:"Celery",lettuce:"Lettuce",corn:"Corn",spinach:"Spinach",avocado:"Avocado",pickle:"Pickle",olives:"Olive",
+  apple:"Apple",grapes:"Grape",berries:"Berry",strawberries:"Strawberry",clementines:"Clementine",banana:"Banana",pineapple:"Pineapple",watermelon:"Watermelon",mango:"Mango",kiwi:"Kiwi",raisins:"Raisin",fdstraw:"Strawberry",
+  pepitas:"Pumpkin Seed",almonds:"Almond",roastchick:"Chickpea",seaweed:"Seaweed",whisps:"Parmesan",darkchoc:"Chocolate",protbar:"Protein Bar",energybites:"Energy",
+  hummus:"Hummus",yoranch:"Ranch",tzatziki:"Tzatziki",guac:"Guac",salsa:"Salsa",marinara:"Marinara",sunbutter:"SunButter",pbutter:"Peanut Butter",teriyaki:"Teriyaki",italian:"Italian",pesto:"Pesto",caesar:"Caesar",cocktail:"Cocktail",mustard:"Honey Mustard",creamcheese:"Cream Cheese",honey:"Honey",
+  water:"Ice",milk:"Milk",fairlife:"Choco Milk",kefir:"Kefir",soymilk:"Soy Milk"};
+const firstG = s => { try{ if(window.Intl && Intl.Segmenter) return [...new Intl.Segmenter().segment(s)][0].segment; }catch(e){} return Array.from(s)[0]; };
+const shortOf = c => c.short || SHORT[c.id] || c.n.split(/[ ,(]/)[0];
+// lowercase for use mid-sentence, but keep brand and proper names ("SunButter", "Greek")
+const lcName = s => s.split(" ").map(w => /^(Greek|Babybel|Swiss|Caesar|Italian|Parmesan)/.test(w) || /[a-z][A-Z]/.test(w) ? w : w.toLowerCase()).join(" ");
+// label name without its size note or comma detail: "Whole-wheat tortilla (8 in)" -> "whole-wheat tortilla"
+const plainName = c => lcName(c.n.replace(/\s*\(.*?\)/g, "").replace(/,.*$/, ""));
+const capF = s => s ? s[0].toUpperCase() + s.slice(1) : s;
+const headW = w => { const f = w.split(/[ -]/)[0], m = f.match(/^[^aeiouy]*[aeiouy]+[^aeiouy]/i); return m && m[0].length >= 3 ? m[0] : f; };
+const rnd = a => a[Math.floor(Math.random()*a.length)];
+
+function fusionStats(parts){
+  const o = {cal:0,p:0,c:0,f:0,fb:0,t:new Set(),cold:false};
+  parts.forEach(([id,q]) => { const c = COMP[id]; if(!c) return;
+    o.cal+=c.cal*q; o.p+=c.p*q; o.c+=c.c*q; o.f+=c.f*q; o.fb+=c.fb*q; c.t.forEach(x=>o.t.add(x)); if(c.cold) o.cold = true; });
+  return o;
+}
+function registerFusion(f){
+  if(!f.parts.every(([id]) => COMP[id])) return null;
+  const s = fusionStats(f.parts);
+  COMP[f.id] = {id:f.id, cat:f.cat, e:f.e, n:f.name, short:f.short, u:"1 serving", cal:r1(s.cal), p:r1(s.p), c:r1(s.c), f:r1(s.f), fb:r1(s.fb),
+    t:[...s.t], cold:s.cold, fx:true, parts:f.parts, desc:f.desc, who:f.who, line:f.line, unstable:!!f.unstable};
+  return COMP[f.id];
+}
+let fusions = store.get("fusions", []).filter(f => registerFusion(f));
+
+const SWEET = ["honey","darkchoc","granola","energybites","protbar","fairlife","raisins","sunbutter","pbutter"];
+const SALTY = ["pretzels","chips","bluechips","crackers","pickle","olives","whisps","seaweed","jerky","popcorn"];
+const isSweet = c => c.cat === "fruit" || SWEET.includes(c.id);
+const isSalty = c => c.t.includes("meat") || (c.cat === "cheese" && !["yogurt","cottage"].includes(c.id)) || SALTY.includes(c.id);
+const isFishy = c => c.t.includes("fish") || c.t.includes("shellfish");
+const isMainC = c => c.cat === "protein" || c.cat === "cheese";
+const WRAP = ["tortilla","spinachtort"], BREADY = ["bread","bagelthin","minibagel","pita","rolls","waffle","ricecakes","crackers"],
+      GRAIN = ["banza","soba","rice","quinoa"], CREAMY = ["yogurt","cottage"], BOAT = ["celery","pepper","cucumber","avocado"],
+      BLENDY = ["yogurt","cottage","spinach","sunbutter","pbutter","granola","honey","banana"];
+
+// Decide what kind of food two items become, and how to pack it.
+function fuseInfo(a, b){
+  const nm = c => plainName(c);
+  const either = fn => fn(a) ? [a,b] : fn(b) ? [b,a] : null;
+  const drink = c => c.cat === "drink";
+  let p;
+  const unstable = {form:"Cronenberg", unstable:true, how:`Pack the ${nm(a)} and the ${nm(b)} in separate compartments and eat them one after the other. Some things were never meant to be one thing.`};
+  if((isFishy(a) && (isSweet(b) || drink(b))) || (isFishy(b) && (isSweet(a) || drink(a)))) return unstable;
+  if((p = either(c => c.id === "water"))) return p[1].cat === "fruit"
+    ? {form:"Infused Ice Water", how:`Drop the ${nm(p[1])} into the water bottle before freezing it. By lunch it's fruity ice water and it kept the bag cold all morning.`}
+    : unstable;
+  if((p = either(drink))){
+    if(!(drink(p[1]) || p[1].cat === "fruit" || BLENDY.includes(p[1].id))) return unstable;
+    return {form:rnd(["Smoothie","Shake","Slushie"]), how:`Blend the ${nm(p[0])} with the ${nm(p[1])} the night before, then freeze it in a wide-mouth insulated bottle. It's slushy by lunch and keeps the bag cold. Pack a spoon.`};
+  }
+  if((p = either(c => WRAP.includes(c.id)))) return {form:rnd(["Roll-Ups","Pinwheels","Spirals"]), how:`Lay out the ${nm(p[0])}, cover it with the ${nm(p[1])}, roll it up tight, and slice into bite-size spirals.`};
+  if((p = either(c => GRAIN.includes(c.id)))) return {form:rnd(["Bowl","Salad","Power Bowl"]), how:`Toss the ${nm(p[0])} with the ${nm(p[1])} in a pre-chilled insulated jar. Pack a fork.`};
+  if((p = either(c => CREAMY.includes(c.id)))){
+    if(isSweet(p[1]) || p[1].cat === "crunch" || p[1].id === "granola") return {form:rnd(["Parfait","Crunch Cup"]), how:`Layer the ${nm(p[0])} and the ${nm(p[1])} in a jar. Keep anything crunchy in its own bag and sprinkle it on at lunch.`};
+    return {form:rnd(["Scoop Dip","Power Dip"]), how:`Chop the ${nm(p[1])} small and stir it into the ${nm(p[0])} for a thick, scoopable dip. Pack crackers or veggies to scoop with.`};
+  }
+  if(a.cat === "dip" && b.cat === "dip") return {form:"Swirl Dip", how:`Swirl the ${nm(a)} and the ${nm(b)} together in one leak-proof cup and dunk anything in it.`};
+  if((p = either(c => c.cat === "dip"))) return {form:rnd(["Dunkers","Dippers"]), how:`Cut the ${nm(p[1])} into dunkable pieces and pack the ${nm(p[0])} in a leak-proof cup.`};
+  if((p = either(c => BREADY.includes(c.id)))) return {form:rnd(["Stackers","Sammies","Towers"]), how:`Stack the ${nm(p[1])} on the ${nm(p[0])} in layers and cut into quarters for easy grabbing.`};
+  if((p = either(c => BOAT.includes(c.id))) && (isMainC(p[1]) || p[1].cat === "crunch")) return {form:rnd(["Boats","Canoes"]), how:`Slice the ${nm(p[0])} into boat shapes and fill them with the ${nm(p[1])}.`};
+  if((p = either(c => c.cat === "crunch"))) return {form:rnd(["Crunch Clusters","Trail Mix"]), how:`Mix the ${nm(p[0])} with the ${nm(p[1])} in a snack bag and shake. Instant custom trail mix.`};
+  if((p = either(isMainC)) && ["fruit","veg"].includes(p[1].cat)) return {form:rnd(["Skewers","Kabobs"]), how:`Thread the ${nm(p[0])} and the ${nm(p[1])} onto blunt skewers, alternating pieces.`};
+  if(isMainC(a) && isMainC(b)){
+    const SLICED = ["turkey","ham","roastbeef","salami","pepperoni","salmon","swiss"];
+    if((p = either(c => SLICED.includes(c.id)))) return {form:rnd(["Roll-Ups","Wraps"]), how:`Roll the ${nm(p[0])} around the ${nm(p[1])} and secure each one with a pick.`};
+    return {form:rnd(["Stacks","Pick Bites"]), how:`Cut the ${nm(a)} and the ${nm(b)} into chunks and pair them on picks, one of each per bite.`};
+  }
+  if(["fruit","veg"].includes(a.cat) && ["fruit","veg"].includes(b.cat)) return {form:rnd(["Kabobs","Crunch Salad"]), how:`Cut the ${nm(a)} and the ${nm(b)} into matching bite-size pieces and pack them mixed together.`};
+  return {form:rnd(["Bites","Combo","Duo"]), how:`Pack the ${nm(a)} and the ${nm(b)} side by side and eat them together, one bite of each.`};
+}
+const FZ_ADJ = ["Determined","Smiling","Interdimensional","Fabulous","Glorpy","Mega","Tiny","Legendary","Certified"];
+function fusionName(A, B, port, info){
+  const f = info.form;
+  const T = info.unstable
+    ? [`Cronenberg ${A}-${B}`, `The ${port} Abomination`, `The ${port} Incident`]
+    : [`${port} ${f}`, `Amalgamated ${A}-${B} ${f}`, `Schwifty ${port} ${f}`, `${A} × ${B} ${f}`, `The ${rnd(FZ_ADJ)} ${port} ${f}`,
+       `${port} ${f} from Dimension ${rnd(["C","J","D","K","Q"])}-${100+Math.floor(Math.random()*900)}`];
+  return rnd(T).slice(0, 60);
+}
+const FZ_REACT = [
+  (a,b,p)=>["Alphys", `I-it's an amalgamate! But a g-good one! The ${a} and the ${b}, ${p}g of protein, totally stable!`],
+  (a,b,p)=>["Rick", `Fusion complete, Morty. ${capF(a)} and ${b}, together at last. ${p} grams of protein. *burp* Science.`],
+  (a,b,p)=>["Temmie", `hOI!! ${a} + ${b} = tem's NEW FAVRIT!! ${p}g protein!! yaya!!`],
+  (a,b,p)=>["Pim", `Oh my gosh, the ${a} and the ${b} are FRIENDS now! Look at them smile!`],
+  (a,b,p)=>["Squanchy", `The ${a} and the ${b}... they SQUANCHED together! ${p} grams of squanch!`],
+  (a,b,p)=>["Glep", `Glep glorp! (${p}g of protein. Glep would eat this.)`],
+  (a,b,p)=>["Mettaton", `A DUET! ${capF(a)} and ${b}, darling! The ratings are ASTRONOMICAL!`]
+];
+const FZ_UNSTABLE = [
+  (a,b)=>["Rick", `Oh geez. That's a Cronenberg, Morty. ${capF(a)} and ${b} should NOT be one thing. Pack them separately.`],
+  (a,b)=>["Alphys", `Th-that one's a little... unstable. M-maybe keep the ${a} and the ${b} in separate compartments?`],
+  (a,b)=>["Morty", `Aw geez, Rick, the ${a} and the ${b}... it's looking at me. Can we just eat them one at a time?`]
+];
+function flavorLine(a, b, s){
+  const macrosTxt = `${Math.round(s.p)}g protein and ${Math.round(s.cal)} kcal per fusion.`;
+  const sw = isSweet(a) || isSweet(b), sa = isSalty(a) || isSalty(b);
+  const taste = sw && sa ? "Sweet and salty." : (isSweet(a) && isSweet(b)) ? "Sweet and fruity." : sw ? "Lightly sweet." : "Savory and filling.";
+  return `${taste} ${macrosTxt}`;
+}
+// Build (or rebuild with new portions) an unsaved fusion. `prev` keeps its name, form and reaction.
+function makeFusion(aId, qa, bId, qb, prev){
+  const a = COMP[aId], b = COMP[bId], parts = [[aId,qa],[bId,qb]], s = fusionStats(parts);
+  const info = prev ? prev.info : fuseInfo(a, b);
+  const A = shortOf(a), B = shortOf(b);
+  const short = prev ? prev.short : capF(headW(A) + B.split(/[ -]/)[0].toLowerCase());
+  const name = prev ? prev.name : fusionName(A, B, short, info);
+  const reacts = info.unstable ? FZ_UNSTABLE : FZ_REACT;
+  const rIdx = prev ? prev.rIdx : Math.floor(Math.random()*reacts.length);
+  const [who, line] = reacts[rIdx](lcName(A), lcName(B), Math.round(s.p));
+  const pri = ["protein","cheese","carb","veg","fruit","crunch","dip","drink"];
+  let cat = pri.find(k => k === a.cat || k === b.cat);
+  if(/Smoothie|Shake|Slushie|Water/.test(info.form)) cat = "drink";
+  return {aId, bId, qa, qb, parts, s, info, short, name, rIdx, who, line, cat, e: firstG(a.e) + firstG(b.e),
+          desc: info.how + " " + (info.unstable ? `${Math.round(s.p)}g protein and ${Math.round(s.cal)} kcal if you eat both.` : flavorLine(a, b, s))};
+}
+let fz = {a:"", qa:1, b:"", qb:1, draft:null, placed:false};
+
 /* ---------------- state ---------------- */
 let favs = new Set(store.get("favs", []));
 let creations = store.get("creations", []);
@@ -1135,7 +1304,7 @@ function openModal(id){
         <div>
           <p class="h4">★ WHAT'S IN THE BOX</p>
           <ul class="itemlist">${l.items.map(([id,q])=>{ const c=COMP[id]; if(!c) return "";
-            return `<li><span class="ie">${c.e}</span><span><div class="in">${esc(c.n)}</div><div class="iu">${fmtQty(q,c.u)}${c.t.includes("nut")?" · ⚠ contains nuts":""}</div></span><span class="ip">${r1(c.p*q)}g P</span></li>`; }).join("")}</ul>
+            return `<li><span class="ie">${c.e}</span><span><div class="in">${esc(c.n)}</div><div class="iu">${fmtQty(q,c.u)}${c.fx?" · 🧬 fusion of "+c.parts.map(([pid,pq])=>fmtQty(pq*q,COMP[pid].u)+" "+esc(lcName(COMP[pid].n))).join(" + "):""}${c.t.includes("nut")?" · ⚠ contains nuts":""}</div></span><span class="ip">${r1(c.p*q)}g P</span></li>`; }).join("")}</ul>
         </div>
         <div>
           <p class="h4">★ STATS</p>
@@ -1190,10 +1359,13 @@ let labCat = "protein";
 const SLOT = {protein:"main", cheese:"main", carb:"carb", veg:"veg", fruit:"fruit", crunch:"extra", dip:"extra", drink:"drink"};
 const SLOT_LABEL = {main:"🍗 Main Protein", carb:"🍞 Grains", veg:"🥕 Veggies", fruit:"🍓 Fruit", extra:"🥨 Crunch & Dips", drink:"🥛 Drink"};
 function renderPalette(){
-  $("#catTabs").innerHTML = Object.entries(CATS).map(([k,v])=>`<button class="chip ${k===labCat?"on":""}" data-cat="${k}">${v.e} ${v.label}</button>`).join("");
-  $("#palette").innerHTML = Object.values(COMP).filter(c=>c.cat===labCat).map(c=>`
-    <button class="pal ${c.t.includes("nut")?"nut":""}" data-add="${c.id}" title="${esc(c.n)} (${esc(c.u)})">
-      <span class="pe">${c.e}</span><span class="pn">${esc(c.n)}</span><span class="pm">${esc(c.u)} · <b>${c.p}g P</b> · ${c.cal} kcal</span></button>`).join("");
+  $("#catTabs").innerHTML = Object.entries(CATS).map(([k,v])=>`<button class="chip ${k===labCat?"on":""}" data-cat="${k}">${v.e} ${v.label}</button>`).join("")
+    + `<button class="chip ${labCat==="fusion"?"on":""}" data-cat="fusion">🧬 Fusions (${fusions.length})</button>`;
+  const list = Object.values(COMP).filter(c => labCat === "fusion" ? c.fx : (c.cat === labCat && !c.fx));
+  $("#palette").innerHTML = list.length ? list.map(c=>`
+    <button class="pal ${c.t.includes("nut")?"nut":""}" data-add="${c.id}" title="${esc(c.fx ? c.desc : c.n + " (" + c.u + ")")}">
+      <span class="pe">${c.e}</span><span class="pn">${esc(c.n)}</span><span class="pm">${esc(c.u)} · <b>${c.p}g P</b> · ${Math.round(c.cal)} kcal</span></button>`).join("")
+    : `<p class="note" style="grid-column:1/-1">* No fusions yet. Use the Fusion Chamber under the lunchbox to fuse two items, then save the result here.</p>`;
 }
 function labItems(){ return Object.entries(lab).filter(([id,q])=>COMP[id] && q>0); }
 function renderBento(flash){
@@ -1203,7 +1375,7 @@ function renderBento(flash){
     const arr = bySlot[slot], p = arr.reduce((s,[id,q])=>s+COMP[id].p*q,0);
     return `<div class="comp ${flash===slot?"hot":""}" data-slot="${slot}"><h5><span>${SLOT_LABEL[slot]}</span><span>${arr.length?Math.round(p)+"g P":""}</span></h5>
       ${arr.length ? arr.map(([id,q])=>{ const c=COMP[id]; return `<div class="bi"><span class="be">${c.e}</span><span class="bn">${esc(c.n)}<span class="bq">${fmtQty(q,c.u)}</span></span>
-        <span class="qty"><button data-dec="${id}" aria-label="Less">−</button><button data-inc="${id}" aria-label="More">+</button></span></div>`; }).join("")
+        <span class="qty"><button data-fx="${id}" aria-label="Send to Fusion Chamber" title="Send to Fusion Chamber">🧬</button><button data-dec="${id}" aria-label="Less">−</button><button data-inc="${id}" aria-label="More">+</button></span></div>`; }).join("")
         : `<div class="hint">tap ${slot==="main"?"Protein or Dairy":slot==="extra"?"Crunch or Dips":CATS[Object.keys(SLOT).find(k=>SLOT[k]===slot)].label} to add</div>`}</div>`;
   }).join("");
   $("#labName").value = labName;
@@ -1254,6 +1426,7 @@ function renderHUD(){
   if(key !== lastVerdict){ lastVerdict = key; typewrite($("#vTxt"), text, 16, 700); } else { $("#vTxt").textContent = text; }
   renderBreakdown(items, m);
   updateDial();
+  renderChamber(false);
 }
 function renderBreakdown(items, m){
   if(!items.length){ $("#breakdown").innerHTML = `<p class="note">* The box is empty. Add parts and every calorie and gram is tallied here.</p>`; return; }
@@ -1381,7 +1554,7 @@ const pick = a => a[Math.floor(Math.random()*a.length)];
 function randomName(){ return `${pick(NAME_A)} ${pick(NAME_B)}'s ${pick(NAME_C)}`; }
 function mutate(){
   const nutOK = c => !c.t.includes("nut");
-  const from = cat => pick(Object.values(COMP).filter(c=>c.cat===cat && nutOK(c) && c.id!=="water"));
+  const from = cat => pick(Object.values(COMP).filter(c=>c.cat===cat && nutOK(c) && c.id!=="water" && !c.fx));
   lab = {};
   const p = from("protein"); lab[p.id] = 1;
   if(Math.random() < .7){ lab[from("cheese").id] = 1; }
@@ -1408,6 +1581,138 @@ function saveCreation(){
   c.m = m; creations.push(c); store.set("creations", creations.map(({m,...rest})=>rest));
   renderLibrary(); updatePills(); return c;
 }
+
+/* ---------------- FUSION CHAMBER UI ---------------- */
+function fzOptions(sel){
+  const box = labItems().map(([id]) => id);
+  const opt = c => `<option value="${c.id}" ${c.id===sel?"selected":""}>${c.e} ${esc(c.n)}</option>`;
+  let h = `<option value="">Pick an item…</option>`;
+  if(box.length) h += `<optgroup label="In your lunchbox">${box.map(id => opt(COMP[id])).join("")}</optgroup>`;
+  const fx = Object.values(COMP).filter(c => c.fx && !box.includes(c.id));
+  if(fx.length) h += `<optgroup label="Saved fusions">${fx.map(opt).join("")}</optgroup>`;
+  Object.entries(CATS).forEach(([k,v]) => {
+    const cs = Object.values(COMP).filter(c => c.cat === k && !c.fx && !box.includes(c.id));
+    if(cs.length) h += `<optgroup label="${v.label}">${cs.map(opt).join("")}</optgroup>`;
+  });
+  return h;
+}
+function fzSlot(side){
+  const id = fz[side], q = fz["q"+side], c = COMP[id];
+  return `<div class="fz-slot">
+    <div class="fz-emoji">${c ? c.e : "❔"}</div>
+    <select id="fz-${side}" aria-label="Fusion item ${side.toUpperCase()}">${fzOptions(id)}</select>
+    ${c ? `<div class="fz-q"><button data-fzq="${side}:-0.25" aria-label="Smaller portion">−</button><span>${fmtQty(q,c.u)}${lab[id]?" · in box":""}</span><button data-fzq="${side}:0.25" aria-label="Bigger portion">+</button></div>
+      <div class="fz-mini">${r1(c.p*q)}g protein · ${Math.round(c.cal*q)} kcal</div>` : `<div class="fz-mini">or tap 🧬 on a lunchbox item</div>`}
+  </div>`;
+}
+// The lunch as it would be after fusing: the two source items leave the box and the fusion goes in.
+function fzAfter(d){
+  const rest = labItems().filter(([id]) => id !== d.aId && id !== d.bId), m = macros(rest);
+  return {p: m.p + d.s.p, cal: m.cal + d.s.cal, fb: m.fb + d.s.fb, base: m};
+}
+function renderChamber(typing){
+  const el = $("#fusion"); if(!el) return;
+  const d = fz.draft;
+  let out = "";
+  if(d){
+    const after = fzAfter(d), ok = after.p >= proteinTarget - 0.5;
+    const inBox = [d.aId, d.bId].filter(id => lab[id]).map(id => plainName(COMP[id]));
+    out = `<div class="fz-result ${d.info.unstable?"unstable":""}">
+      <div class="fz-big" aria-hidden="true">${d.e}</div>
+      <div class="fz-head"><h3>${esc(d.name)}</h3>${fz.placed?"":`<button class="small-btn" data-fzname>🎲 New name</button>`}</div>
+      ${d.info.unstable?`<div class="fz-warn">⚠ UNSTABLE FUSION. These two work better packed separately.</div>`:""}
+      <p class="fz-desc">${esc(d.desc)}</p>
+      <div class="dialog" style="border-width:3px;padding:10px;min-height:0"><div class="face" style="font-size:32px;width:40px">${FACES[d.who]||"⭐"}</div>
+        <div style="flex:1;min-width:0"><div class="who">* ${d.who.toUpperCase()}</div><div class="txt" id="fzTxt" style="font-size:10px;min-height:0"></div></div></div>
+      <div class="macro-table" style="margin:0">
+        <div><b style="color:var(--pc)">${r1(d.s.p)}g</b><small>Protein</small></div><div><b>${Math.round(d.s.cal)}</b><small>kcal</small></div>
+        <div><b style="color:var(--cc)">${r1(d.s.c)}g</b><small>Carbs</small></div><div><b style="color:var(--fc)">${r1(d.s.f)}g</b><small>Fat</small></div>
+        <div><b style="color:var(--fib)">${r1(d.s.fb)}g</b><small>Fiber</small></div></div>
+      <div class="fz-goal ${ok?"ok":"no"}">${ok?"♥":"✗"} Lunch ${fz.placed?"now":"after fusing"}: <b>${Math.round(after.p)}g protein</b> · ${Math.round(after.cal)} kcal · ${Math.round(after.fb)}g fiber. Dial goal is ${proteinTarget}g.</div>
+      ${fz.placed ? `<p class="note" style="margin:0">✓ In the lunchbox and saved to the 🧬 Fusions tab.</p>` : `
+      <div class="fz-acts">
+        <button class="big-btn gold" data-fzbal>⚖️ Balance to goal</button>
+        <button class="big-btn" data-fzput>🧬 Put in lunchbox</button>
+        <button class="big-btn ghost" data-fzsave>💾 Save to Fusions</button>
+      </div>
+      <p class="note" style="margin:0">${inBox.length ? `Putting it in the lunchbox replaces the ${inBox.join(" and ")} already there, so the macros above are what you'll actually pack.` : "Neither item is in the lunchbox yet, so the fusion gets added on top."}</p>`}
+    </div>`;
+  }
+  el.innerHTML = `
+    <p class="h4">★ FUSION CHAMBER</p>
+    <p class="note" style="margin:0 0 12px">Fuse two items into a brand-new one with its own name, packing instructions and macros. Use the portions and the balance button to keep the lunch on the dial's protein goal.</p>
+    <div class="fz-row" id="fzRow">${fzSlot("a")}<div class="fz-plus" aria-hidden="true">+</div>${fzSlot("b")}</div>
+    <button class="big-btn fz-go" id="fzGo">🧬 FUSE!</button>
+    <div id="fzOut">${out}</div>`;
+  if(d){ const t = $("#fzTxt"); if(typing) typewrite(t, d.line, 18, 640); else t.textContent = d.line; }
+}
+function sendToChamber(id){
+  if(!fz.a || (fz.a && fz.b)){ fz.a = id; fz.qa = lab[id] || 1; fz.b = ""; }
+  else if(id !== fz.a){ fz.b = id; fz.qb = lab[id] || 1; }
+  fz.draft = null; fz.placed = false; renderChamber(false);
+  $("#fusion").scrollIntoView({behavior:"smooth", block:"nearest"});
+  toast(`* ${COMP[id].n} entered the Fusion Chamber.${fz.b ? " Press FUSE!" : " Pick a second item."}`, 2000);
+}
+function doFuse(){
+  if(!fz.a || !fz.b){ toast("* The chamber needs TWO items. Pick one on each side."); return; }
+  if(fz.a === fz.b){ toast("* Fusing a thing with itself just makes... more of the thing. Pick two different items."); return; }
+  const row = $("#fzRow"); row.classList.add("fusing"); $("#fzGo").disabled = true;
+  [0,120,240,360,480,600].forEach((ms,i) => setTimeout(() => blip(300 + i*120), ms));
+  setTimeout(() => {
+    fz.draft = makeFusion(fz.a, fz.qa, fz.b, fz.qb, null); fz.placed = false;
+    renderChamber(true);
+    const r = $(".fz-big"); if(r){ const b = r.getBoundingClientRect(); floaty(b.left + b.width/2, b.top, fz.draft.info.unstable ? "💀" : "✨", 8); }
+  }, 900);
+}
+function rebuildDraft(){ if(fz.draft) fz.draft = makeFusion(fz.a, fz.qa, fz.b, fz.qb, fz.draft); }
+function balanceFusion(){
+  const d = fz.draft; if(!d) return;
+  const A = COMP[d.aId], B = COMP[d.bId], base = fzAfter(d).base;
+  const cost = (qa, qb) => { const p = base.p + A.p*qa + B.p*qb, cal = base.cal + A.cal*qa + B.cal*qb, dd = p - proteinTarget;
+    return (dd < 0 ? -dd*1.5 : dd) + Math.max(0, cal - 750)/50; };
+  let qa = fz.qa, qb = fz.qb;
+  for(let i=0; i<40; i++){
+    let best = null, bc = cost(qa, qb);
+    [[0.25,0],[-0.25,0],[0,0.25],[0,-0.25]].forEach(([da,db]) => {
+      const na = qa+da, nb = qb+db; if(na < 0.25 || nb < 0.25 || na > 4 || nb > 4) return;
+      const c = cost(na, nb); if(c < bc - 0.01){ bc = c; best = [na, nb]; } });
+    if(!best) break; [qa, qb] = best;
+  }
+  fz.qa = qa; fz.qb = qb; rebuildDraft(); renderChamber(false);
+  const p = fzAfter(fz.draft).p;
+  toast(Math.abs(p - proteinTarget) <= 2 ? `* Balanced. The lunch lands at ${Math.round(p)}g protein.` : `* Got as close as these two items allow: ${Math.round(p)}g. Try a higher-protein partner.`);
+}
+function saveDraft(){
+  const d = fz.draft; if(!d) return null;
+  if(d.savedId && COMP[d.savedId]) return COMP[d.savedId];
+  const f = {id:"fx-" + Date.now().toString(36), cat:d.cat, e:d.e, name:d.name, short:d.short, parts:d.parts, desc:d.desc, who:d.who, line:d.line, unstable:!!d.info.unstable};
+  fusions.push(f); store.set("fusions", fusions); d.savedId = f.id;
+  const c = registerFusion(f); renderPalette(); return c;
+}
+function putFusion(){
+  const d = fz.draft; if(!d) return;
+  const c = saveDraft();
+  delete lab[d.aId]; delete lab[d.bId]; lab[c.id] = 1;
+  fz.placed = true; saveLab(); renderBento(SLOT[c.cat]);
+  toast(`* ${c.n} is in the lunchbox. It's ${Math.round(macros(labItems()).p)}g protein total now.`);
+}
+document.addEventListener("click", e => {
+  if(!e.target.closest("#fusion")) return;
+  const t = e.target.closest("button"); if(!t) return;
+  if(t.id === "fzGo") return doFuse();
+  if(t.dataset.fzq){ const [side, dq] = t.dataset.fzq.split(":"); fz["q"+side] = Math.max(0.25, Math.min(4, fz["q"+side] + +dq));
+    if(fz.placed){ fz.draft = null; fz.placed = false; } rebuildDraft(); renderChamber(false); return; }
+  if(t.dataset.fzname !== undefined && fz.draft){ const d = fz.draft;
+    d.name = fusionName(shortOf(COMP[d.aId]), shortOf(COMP[d.bId]), d.short, d.info); blip(700); renderChamber(false); return; }
+  if(t.dataset.fzbal !== undefined) return balanceFusion();
+  if(t.dataset.fzput !== undefined) return putFusion();
+  if(t.dataset.fzsave !== undefined){ const c = saveDraft(); if(c) toast(`* Saved “${c.n}” to the 🧬 Fusions tab.`); return; }
+});
+document.addEventListener("change", e => {
+  const t = e.target; if(!t.id || !t.id.startsWith("fz-")) return;
+  const side = t.id.slice(3); fz[side] = t.value; fz["q"+side] = lab[t.value] || 1;
+  fz.draft = null; fz.placed = false; renderChamber(false);
+});
 
 /* ---------------- WEEK ---------------- */
 const DAYS = [["MON","Gazorpazorpfield hates Mondays. Pack a good one."],["TUE","Taco-ish Tuesday energy."],["WED","Wubba Lubba Wednesday."],["THU","Temmie Thursday (hOI!)."],["FRI","Smile Check Friday! 😄"]];
@@ -1438,7 +1743,10 @@ function renderWeek(){
   renderShop(chosen); renderQuest(chosen);
 }
 function aggregate(chosen){
-  const agg = {}; chosen.forEach(l => l.items.forEach(([id,q]) => { agg[id] = (agg[id]||0) + q; }));
+  // fusions are broken back into their real ingredients for shopping and prep
+  const agg = {}, add = (id, q) => { const c = COMP[id]; if(!c) return;
+    if(c.fx) c.parts.forEach(([pid,pq]) => add(pid, q*pq)); else agg[id] = (agg[id]||0) + q; };
+  chosen.forEach(l => l.items.forEach(([id,q]) => add(id, q)));
   return agg;
 }
 function renderShop(chosen){
@@ -1548,7 +1856,7 @@ function updatePills(){
 }
 
 document.addEventListener("click", e => {
-  const t = e.target.closest("[data-fav],[data-view],[data-week],[data-remix],[data-close],[data-del],[data-add],[data-inc],[data-dec],[data-cat],[data-reroll],[data-clear],[data-u],[data-d],[data-tab]");
+  const t = e.target.closest("[data-fx],[data-fav],[data-view],[data-week],[data-remix],[data-close],[data-del],[data-add],[data-inc],[data-dec],[data-cat],[data-reroll],[data-clear],[data-u],[data-d],[data-tab]");
   if(!t){ const card = e.target.closest(".card"); if(card) openModal(card.dataset.id); return; }
   const ds = t.dataset;
   if(ds.tab){ showTab(ds.tab); return; }
@@ -1559,6 +1867,7 @@ document.addEventListener("click", e => {
   if(ds.close !== undefined){ closeModal(); return; }
   if(ds.del){ creations = creations.filter(c=>c.id!==ds.del); store.set("creations", creations.map(({m,...r})=>r));
     plan = plan.map(p=>p===ds.del?null:p); store.set("plan", plan); closeModal(); renderLibrary(); updatePills(); toast("* The creation faded back into the void."); return; }
+  if(ds.fx){ sendToChamber(ds.fx); return; }
   if(ds.add){ addToLab(ds.add, 1); blip(800); return; }
   if(ds.inc){ addToLab(ds.inc, 0.5); return; }
   if(ds.dec){ addToLab(ds.dec, -0.5); return; }
